@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist-test/
+.env
+*.bak
+*.log
+.mini-session.json
