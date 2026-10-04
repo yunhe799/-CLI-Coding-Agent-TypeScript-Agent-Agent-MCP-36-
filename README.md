@@ -5,5 +5,5 @@
 ## 进度
 
 - [ ] 第 1 章 Agent Loop
-- [ ] 第 2 章 工具系统
+- [x] 第 2 章 工具系统
 - [ ] 第 3 章 System Prompt

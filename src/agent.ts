@@ -1,12 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { toolDefinitions, executeTool } from "./tools.js";
+import { buildSystemPrompt } from "./prompt.js";
 
 const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
-
-// 第 1 章先用一个写死的简单提示词。第 3 章会换成真正的 system prompt 模块。
-const SYSTEM_PROMPT =
-  "You are Mini Claude Code, a small coding assistant that helps with software " +
-  "tasks. Use the tools to read and change files. 用中文回答，尽量详细一些。.";
 
 // 整个 Agent 就是一个类：一个不断变长的消息数组 + 一个循环。
 export class Agent {
@@ -27,10 +23,14 @@ export class Agent {
     this.messages.push({ role: "user", content: userText });
 
     while (true) {
+      // 第 3 章的变化：提示词不再是写死的一句话，
+      // 而是由 prompt.ts 组装出来（静态规则 + 当前环境信息）。
+      const system = buildSystemPrompt();
+
       const request = {
         model: MODEL,
         max_tokens: 4096,
-        system: SYSTEM_PROMPT,
+        system,
         tools: toolDefinitions, // 这一行让模型"知道"有哪些工具可用
         messages: this.messages,
       };
