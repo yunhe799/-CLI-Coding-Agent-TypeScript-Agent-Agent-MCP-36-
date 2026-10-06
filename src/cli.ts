@@ -2,6 +2,7 @@ import * as readline from "readline";
 import { pathToFileURL } from "url";
 import { readFileSync } from "fs";
 import { Agent } from "./agent.js";
+import { saveSession, loadSession } from "./session.js";
 
 // ── 我给你的项目加的小改进 ──
 // 教程原版不读 .env，需要每次手动设环境变量。加上这段以后，
@@ -25,9 +26,23 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
 
   const agent = new Agent();
 
+  // ── 第 4 章新增：--resume 先把上次保存的对话读回来 ──
+  const resume = argv.includes("--resume");
+  argv = argv.filter((a) => a !== "--resume");
+  if (resume) {
+    const saved = loadSession();
+    if (saved) {
+      agent.loadHistory(saved as any);
+      console.log(`(resumed ${saved.length} messages)`);
+    } else {
+      console.log("(no saved session found)");
+    }
+  }
+
   const oneShot = argv.join(" ").trim();
   if (oneShot) {
     await agent.chat(oneShot);
+    saveSession(agent.history());
     return;
   }
 
@@ -42,7 +57,16 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
           resolve();
           return;
         }
+        // /clear：清空对话历史（也就等于开了一个新会话）
+        if (input === "/clear") {
+          agent.clearHistory();
+          saveSession(agent.history());
+          console.log("(history cleared)");
+          ask();
+          return;
+        }
         if (input) await agent.chat(input);
+        if (input) saveSession(agent.history());
         ask();
       });
     };

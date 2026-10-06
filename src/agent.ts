@@ -17,14 +17,26 @@ export class Agent {
     });
   }
 
+  // ── 第 4 章新增：把对话历史开放给外面，好让 CLI 保存和恢复 ──
+  history(): Anthropic.MessageParam[] {
+    return this.messages;
+  }
+
+  loadHistory(messages: Anthropic.MessageParam[]): void {
+    this.messages = messages;
+  }
+
+  clearHistory(): void {
+    this.messages = [];
+  }
+
   // 一次用户输入 = 一次 chat。
   // 调用模型 → 如果它要工具就执行 → 把结果喂回去 → 再调用，直到模型给出纯文本回答。
   async chat(userText: string): Promise<void> {
     this.messages.push({ role: "user", content: userText });
 
     while (true) {
-      // 第 3 章的变化：提示词不再是写死的一句话，
-      // 而是由 prompt.ts 组装出来（静态规则 + 当前环境信息）。
+      // 提示词不再是写死的一句话，而是由 prompt.ts 组装出来（静态规则 + 当前环境信息）。
       const system = buildSystemPrompt();
 
       const request = {
