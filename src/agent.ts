@@ -47,12 +47,14 @@ export class Agent {
         messages: this.messages,
       };
 
-      const reply = await this.client.messages.create(request);
-
-      // 先把模型的文字输出打出来
-      for (const block of reply.content) {
-        if (block.type === "text") process.stdout.write(block.text);
-      }
+      // ── 第 5 章的变化：流式输出 ──
+      // 以前是 create() 等模型把整段话都写完再一次性打印（屏幕空白好几秒）。
+      // 现在改成 stream()：模型每吐出一小段文字，就立刻打印出来。
+      // 最后用 finalMessage() 取回完整消息 —— 它的结构和不流式调用完全一样，
+      // 所以后面的代码一行都不用改。
+      const stream = this.client.messages.stream(request);
+      stream.on("text", (t) => process.stdout.write(t));
+      const reply = await stream.finalMessage();
       process.stdout.write("\n");
 
       // 把模型的完整回复（文字 + 工具调用）记进消息历史
