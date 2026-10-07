@@ -11,6 +11,8 @@ const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
 export class Agent {
   private client: Anthropic;
   private messages: Anthropic.MessageParam[] = [];
+  // ── 第 10 章新增：运行模式。"plan" 表示只读模式 ──
+  mode = "default";
 
   constructor() {
     this.client = new Anthropic({
@@ -31,6 +33,10 @@ export class Agent {
 
   clearHistory(): void {
     this.messages = [];
+  }
+
+  setMode(m: string): void {
+    this.mode = m;
   }
 
   // 一次用户输入 = 一次 chat。
@@ -80,12 +86,16 @@ export class Agent {
       const results: Anthropic.ToolResultBlockParam[] = [];
       for (const tu of toolUses) {
         console.log(`  → ${tu.name}(${JSON.stringify(tu.input)})`);
-        // ── 第 6 章的变化：执行前先过一遍权限检查 ──
+        // ── 第 10 章的变化：在权限闸门之上，再加一层"计划模式"约束 ──
+        // plan 模式下，写文件、改文件、跑命令一律拒绝 —— 只能读和思考。
         // 被拒绝的调用根本不会被执行，模型只会收到一条"被拦下了"的结果。
-        const output =
-          checkPermission(tu.name, tu.input as Record<string, any>) === "deny"
-            ? `Denied: ${tu.name} was blocked by the permission system.`
-            : await executeTool(tu.name, tu.input as Record<string, any>);
+        const blocked =
+          checkPermission(tu.name, tu.input as Record<string, any>) === "deny" ||
+          (this.mode === "plan" &&
+            (tu.name === "write_file" || tu.name === "edit_file" || tu.name === "run_shell"));
+        const output = blocked
+          ? `Denied: ${tu.name} was blocked (${this.mode} mode).`
+          : await executeTool(tu.name, tu.input as Record<string, any>);
         results.push({ type: "tool_result", tool_use_id: tu.id, content: output });
       }
       this.messages.push({ role: "user", content: results });

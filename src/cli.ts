@@ -40,6 +40,14 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
     }
   }
 
+  // ── 第 10 章新增：--plan 进入只读模式 ──
+  // Agent 可以读文件、可以分析，但不能写文件、不能跑命令。
+  if (argv.includes("--plan")) {
+    agent.setMode("plan");
+    argv = argv.filter((a) => a !== "--plan");
+    console.log("(plan mode: read-only)");
+  }
+
   const oneShot = argv.join(" ").trim();
   if (oneShot) {
     // ── 第 9 章的变化："/名字 ..." 走技能模板，其他当成普通消息 ──
