@@ -3,6 +3,7 @@ import { pathToFileURL } from "url";
 import { readFileSync } from "fs";
 import { Agent } from "./agent.js";
 import { saveSession, loadSession } from "./session.js";
+import { resolveSkill } from "./skills.js";
 
 // ── 我给你的项目加的小改进 ──
 // 教程原版不读 .env，需要每次手动设环境变量。加上这段以后，
@@ -41,7 +42,9 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
 
   const oneShot = argv.join(" ").trim();
   if (oneShot) {
-    await agent.chat(oneShot);
+    // ── 第 9 章的变化："/名字 ..." 走技能模板，其他当成普通消息 ──
+    const input = resolveSkill(oneShot) ?? oneShot;  //?? 的意思是"左边是空就用右边"
+    await agent.chat(input);
     saveSession(agent.history());
     return;
   }
@@ -73,7 +76,7 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
           ask();
           return;
         }
-        if (input) await agent.chat(input);
+        if (input) await agent.chat(resolveSkill(input) ?? input);
         if (input) saveSession(agent.history());
         ask();
       });

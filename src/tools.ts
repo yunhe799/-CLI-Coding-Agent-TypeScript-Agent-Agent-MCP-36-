@@ -96,8 +96,16 @@ export async function executeTool(name: string, input: Record<string, any>): Pro
 
 function readFile(input: { file_path: string }): string {
   try {
-    const lines = readFileSync(input.file_path, "utf-8").split("\n");
-    return lines.map((l, i) => `${String(i + 1).padStart(4)} | ${l}`).join("\n");
+    const content = readFileSync(input.file_path, "utf-8");
+    // ── 修正：按编辑器的方式数行 ──
+    // 先去掉结尾的换行，再按行切开（同时兼容 Windows 的 \r\n 和 Unix 的 \n）。
+    // 否则多一个结尾换行就会多算一行，而且 \r 会混进输出里。
+    const lines = content.replace(/\r?\n$/, "").split(/\r?\n/);
+    const numbered = lines.map((l, i) => `${String(i + 1).padStart(4)} | ${l}`).join("\n");
+    // ── 修正：把总行数直接算好告诉模型 ──
+    // 模型不擅长数数（前面就出现过把 39 行说成 29 行）。
+    // 凡是能用代码确定性算出来的东西，都不要交给模型去"估"。
+    return `${input.file_path}: ${lines.length} lines\n${numbered}`;
   } catch (e: any) {
     return `Error reading file: ${e.message}`;
   }
