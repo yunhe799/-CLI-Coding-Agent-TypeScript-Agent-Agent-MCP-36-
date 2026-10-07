@@ -49,12 +49,20 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   console.log("mini-claude — type a message, or 'exit' to quit.\n");
   await new Promise<void>((resolve) => {
+    // ── 顺手修的小 bug ──
+    // 原版在输入流结束时（比如把内容用管道喂进来、或者按 Ctrl+D）会抛
+    // ERR_USE_AFTER_CLOSE 崩溃。这里监听 close 事件，让它优雅退出。
+    let closed = false;
+    rl.on("close", () => {
+      closed = true;
+      resolve();
+    });
     const ask = () => {
+      if (closed) return;
       rl.question("you: ", async (line) => {
         const input = line.trim();
         if (input === "exit" || input === "quit") {
           rl.close();
-          resolve();
           return;
         }
         // /clear：清空对话历史（也就等于开了一个新会话）

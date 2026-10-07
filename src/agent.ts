@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { toolDefinitions, executeTool } from "./tools.js";
 import { buildSystemPrompt } from "./prompt.js";
 import { checkPermission } from "./permissions.js";
+import { maybeCompact } from "./context.js";
 
 const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
 
@@ -37,6 +38,10 @@ export class Agent {
     this.messages.push({ role: "user", content: userText });
 
     while (true) {
+      // ── 第 7 章的变化：每次调用模型之前，先看历史是不是太长了 ──
+      // 太长就把较早的消息压缩成一条摘要。
+      this.messages = await maybeCompact(this.messages, this.client, MODEL);
+
       // 提示词不再是写死的一句话，而是由 prompt.ts 组装出来（静态规则 + 当前环境信息）。
       const system = buildSystemPrompt();
 
