@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { toolDefinitions, executeTool } from "./tools.js";
 import { buildSystemPrompt } from "./prompt.js";
+import { checkPermission } from "./permissions.js";
 
 const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
 
@@ -71,7 +72,12 @@ export class Agent {
       const results: Anthropic.ToolResultBlockParam[] = [];
       for (const tu of toolUses) {
         console.log(`  → ${tu.name}(${JSON.stringify(tu.input)})`);
-        const output = await executeTool(tu.name, tu.input as Record<string, any>);
+        // ── 第 6 章的变化：执行前先过一遍权限检查 ──
+        // 被拒绝的调用根本不会被执行，模型只会收到一条"被拦下了"的结果。
+        const output =
+          checkPermission(tu.name, tu.input as Record<string, any>) === "deny"
+            ? `Denied: ${tu.name} was blocked by the permission system.`
+            : await executeTool(tu.name, tu.input as Record<string, any>);
         results.push({ type: "tool_result", tool_use_id: tu.id, content: output });
       }
       this.messages.push({ role: "user", content: results });

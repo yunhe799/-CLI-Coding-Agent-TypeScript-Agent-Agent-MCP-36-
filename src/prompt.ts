@@ -38,7 +38,7 @@ function buildEnvironmentContext(): string {
     };
     const branch = execSync("git rev-parse --abbrev-ref HEAD", opts).trim();
     git = `\nGit branch: ${branch}`;
-  } catch {}
+  } catch { }
   // 教程原版这里写的是 process.env.SHELL || "/bin/sh"，在 Windows 上
   // 会显示成错误的 "/bin/sh"。加一句判断，Windows 上显示 PowerShell。
   const shell = process.env.SHELL || (process.platform === "win32" ? "powershell.exe" : "/bin/sh");
