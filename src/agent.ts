@@ -3,6 +3,7 @@ import { toolDefinitions, executeTool } from "./tools.js";
 import { buildSystemPrompt } from "./prompt.js";
 import { checkPermission } from "./permissions.js";
 import { maybeCompact } from "./context.js";
+import { recallMemories } from "./memory.js";
 
 const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
 
@@ -43,7 +44,9 @@ export class Agent {
       this.messages = await maybeCompact(this.messages, this.client, MODEL);
 
       // 提示词不再是写死的一句话，而是由 prompt.ts 组装出来（静态规则 + 当前环境信息）。
-      const system = buildSystemPrompt();
+      let system = buildSystemPrompt();
+      // ── 第 8 章的变化：把和这次提问相关的记忆召回进提示词 ──
+      system += recallMemories(userText);
 
       const request = {
         model: MODEL,

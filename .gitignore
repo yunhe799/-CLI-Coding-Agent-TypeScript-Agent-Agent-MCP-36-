@@ -5,3 +5,4 @@ dist-test/
 *.bak
 *.log
 .mini-session.json
+.mini-memory/
