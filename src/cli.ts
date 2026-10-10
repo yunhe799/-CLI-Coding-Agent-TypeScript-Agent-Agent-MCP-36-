@@ -54,6 +54,8 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
     const input = resolveSkill(oneShot) ?? oneShot;  //?? 的意思是"左边是空就用右边"
     await agent.chat(input);
     saveSession(agent.history());
+    // ── 第 12 章新增：关掉 MCP 子进程，否则 Node 进程不会自己退出 ──
+    await agent.shutdown();
     return;
   }
 
@@ -91,6 +93,8 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
     };
     ask();
   });
+  // ── 第 12 章新增：REPL 退出时同样要收尾 MCP ──
+  await agent.shutdown();
 }
 
 // 只有直接运行这个文件时才启动（被别人 import 时不启动）

@@ -5,6 +5,7 @@ import { checkPermission } from "./permissions.js";
 import { maybeCompact } from "./context.js";
 import { recallMemories } from "./memory.js";
 import { runSubAgent } from "./subagent.js";
+import { McpManager } from "./mcp.js";
 
 const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
 
@@ -14,6 +15,9 @@ export class Agent {
   private messages: Anthropic.MessageParam[] = [];
   // ── 第 10 章新增：运行模式。"plan" 表示只读模式 ──
   mode = "default";
+  // ── 第 12 章新增：外部工具（MCP）管理器 ──
+  private mcp = new McpManager();
+  private mcpReady = false;
 
   constructor() {
     this.client = new Anthropic({
@@ -44,6 +48,9 @@ export class Agent {
   // 调用模型 → 如果它要工具就执行 → 把结果喂回去 → 再调用，直到模型给出纯文本回答。
   async chat(userText: string): Promise<void> {
     this.messages.push({ role: "user", content: userText });
+    // ── 第 12 章新增：真正用到时才连 MCP 服务器（懒加载）──
+    // 只是想问句快问题的话，就不用付"启动 MCP 子进程"的代价。
+    await this.ensureMcp();
 
     while (true) {
       // ── 第 7 章的变化：每次调用模型之前，先看历史是不是太长了 ──
@@ -55,11 +62,20 @@ export class Agent {
       // ── 第 8 章的变化：把和这次提问相关的记忆召回进提示词 ──
       system += recallMemories(userText);
 
+      // ── 第 12 章新增：把外部 MCP 工具并进工具表 ──
+      // 对模型来说它们和内置工具长得一模一样，只是名字带 mcp__ 前缀。
+      const mcpTools: Anthropic.Tool[] = this.mcp.getToolDefinitions().map((t) => ({
+        name: t.name,
+        description: t.description,
+        input_schema: t.input_schema,
+      }));
+      const tools = [...toolDefinitions, ...mcpTools];
+
       const request = {
         model: MODEL,
         max_tokens: 4096,
         system,
-        tools: toolDefinitions, // 这一行让模型"知道"有哪些工具可用
+        tools, // 这一行让模型"知道"有哪些工具可用（内置的 + MCP 的）
         messages: this.messages,
       };
 
@@ -97,6 +113,19 @@ export class Agent {
           continue;
         }
 
+        // ── 第 12 章新增：mcp__<服务器>__<工具> 转发给对应的 MCP 服务器 ──
+        // 一行判断、一行转发——MCP 工具对主循环完全透明。
+        if (this.mcp.isMcpTool(tu.name)) {
+          let output: string;
+          try {
+            output = await this.mcp.callTool(tu.name, tu.input as Record<string, any>);
+          } catch (e: any) {
+            output = `MCP call failed: ${e.message}`;
+          }
+          results.push({ type: "tool_result", tool_use_id: tu.id, content: output });
+          continue;
+        }
+
         // ── 第 10 章的变化：在权限闸门之上，再加一层"计划模式"约束 ──
         // plan 模式下，写文件、改文件、跑命令一律拒绝 —— 只能读和思考。
         // 被拒绝的调用根本不会被执行，模型只会收到一条"被拦下了"的结果。
@@ -111,5 +140,21 @@ export class Agent {
       }
       this.messages.push({ role: "user", content: results });
     }
+  }
+
+  // ── 第 12 章新增：懒连接 MCP，连不上也不影响内置工具 ──
+  private async ensureMcp(): Promise<void> {
+    if (this.mcpReady) return;
+    this.mcpReady = true;
+    try {
+      await this.mcp.loadAndConnect();
+    } catch (err: any) {
+      console.error(`[mcp] init failed: ${err.message}`);
+    }
+  }
+
+  /** 关掉 MCP 子进程。进程退出前必须调用，否则 Node 不会自己退出。 */
+  async shutdown(): Promise<void> {
+    await this.mcp.disconnectAll();
   }
 }
