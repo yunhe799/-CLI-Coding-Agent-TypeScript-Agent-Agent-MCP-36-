@@ -78,6 +78,16 @@ export const toolDefinitions: Anthropic.Tool[] = [
       required: ["command"],
     },
   },
+  {
+    // ── 第 11 章新增：把"派活给子 Agent"也做成一个工具 ──
+    name: "agent",
+    description: "Delegate a read-only investigation to a sub-agent. Give it a task; it explores on its own and reports back a summary.",
+    input_schema: {
+      type: "object",
+      properties: { task: { type: "string", description: "The task for the sub-agent to investigate" } },
+      required: ["task"],
+    },
+  },
 ];
 
 // 按名字分发工具调用。不认识的名字返回错误字符串，而不是抛异常——

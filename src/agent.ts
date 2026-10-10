@@ -4,6 +4,7 @@ import { buildSystemPrompt } from "./prompt.js";
 import { checkPermission } from "./permissions.js";
 import { maybeCompact } from "./context.js";
 import { recallMemories } from "./memory.js";
+import { runSubAgent } from "./subagent.js";
 
 const MODEL = process.env.MINI_MODEL || "claude-sonnet-4-5-20250929";
 
@@ -86,6 +87,16 @@ export class Agent {
       const results: Anthropic.ToolResultBlockParam[] = [];
       for (const tu of toolUses) {
         console.log(`  → ${tu.name}(${JSON.stringify(tu.input)})`);
+
+        // ── 第 11 章新增：agent 工具 → 派一个只读子 Agent ──
+        // 子 Agent 有自己独立的上下文，只有结论会回到主对话里，
+        // 中间读了什么、翻了多少文件，主对话完全不知道。
+        if (tu.name === "agent") {
+          const summary = await runSubAgent(String((tu.input as any).task || ""), this.client, MODEL);
+          results.push({ type: "tool_result", tool_use_id: tu.id, content: summary });
+          continue;
+        }
+
         // ── 第 10 章的变化：在权限闸门之上，再加一层"计划模式"约束 ──
         // plan 模式下，写文件、改文件、跑命令一律拒绝 —— 只能读和思考。
         // 被拒绝的调用根本不会被执行，模型只会收到一条"被拦下了"的结果。
