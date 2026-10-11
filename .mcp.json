@@ -3,6 +3,10 @@
     "demo": {
       "command": "node",
       "args": ["tests/mcp-demo-server.mjs"]
+    },
+    "archaeology": {
+      "command": "node",
+      "args": ["../codebase-archaeology-mcp/server.js"]
     }
   }
 }
