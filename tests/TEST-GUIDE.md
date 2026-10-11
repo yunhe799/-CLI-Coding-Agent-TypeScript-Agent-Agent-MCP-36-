@@ -21,6 +21,7 @@ npm test
 | `tests/subagent.offline.test.mjs` | 第 11 章 子 Agent | 只拿到只读三件套；`write_file`/`run_shell` 被拒；只把文本结论带回主对话 |
 | `tests/mcp.offline.test.mjs` | 第 12 章 MCP | 握手 → 发现工具 → 前缀识别 → `add(17,25)=42` → 未连接报错 → 结果被喂回模型 |
 | `tests/permissions.offline.test.mjs` | 第 6 章 权限闸门 | 6 条危险命令全部拦截、4 条安全命令放行；并用假模型**强行**触发危险命令，验证硬闸门拦下且命令真的没执行 |
+| `tests/autonomy.offline.test.mjs` | 第 15 章 自治续跑 | `/loop` 解析（含 `check every PR` 边界）、`/goal` 裁决的保守解析、分类器 fail-closed、脱敏投影、`/goal` 追到达成 / impossible 刹车、Auto Mode 拦写入且只读工具走 fast-path |
 
 两个测试都用假模型客户端驱动，所以**不联网、不花钱、不用 key**。
 

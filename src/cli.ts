@@ -48,8 +48,37 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
     console.log("(plan mode: read-only)");
   }
 
+  // ── 第 15 章新增：--auto 进入自动模式 ──
+  // 危险操作不再弹框问人，改由一个分类器读一段脱敏的对话记录来判该不该放行。
+  if (argv.includes("--auto")) {
+    agent.setMode("auto");
+    argv = argv.filter((a) => a !== "--auto");
+    console.log("(auto mode: a classifier gates each write instead of asking you)");
+  }
+
+  // ── 第 15 章新增：Ctrl+C 先停 /loop 和 /goal，再按一次才退出 ──
+  let sigints = 0;
+  process.on("SIGINT", () => {
+    sigints++;
+    agent.stopLoops();
+    if (sigints >= 2) process.exit(130);
+    console.log("\n(已请求停止 /loop 与 /goal；再按一次 Ctrl+C 退出)");
+  });
+
   const oneShot = argv.join(" ").trim();
   if (oneShot) {
+    // ── 第 15 章新增：一次性模式也支持 /goal <条件>（跑完整个追目标循环）──
+    if (oneShot === "/goal" || oneShot.startsWith("/goal ")) {
+      const condition = oneShot.slice("/goal".length).trim();
+      if (!condition) {
+        console.log("用法：/goal <条件>");
+        return;
+      }
+      await agent.pursueGoal(agent.setGoal(condition));
+      saveSession(agent.history());
+      await agent.shutdown();
+      return;
+    }
     // ── 第 9 章的变化："/名字 ..." 走技能模板，其他当成普通消息 ──
     const input = resolveSkill(oneShot) ?? oneShot;  //?? 的意思是"左边是空就用右边"
     await agent.chat(input);
@@ -76,6 +105,24 @@ export async function runCli(argv: string[] = process.argv.slice(2)): Promise<vo
         const input = line.trim();
         if (input === "exit" || input === "quit") {
           rl.close();
+          return;
+        }
+        // ── 第 15 章新增：/goal 与 /loop 两个自治命令 ──
+        if (input === "/goal" || input.startsWith("/goal ")) {
+          const condition = input.slice("/goal".length).trim();
+          if (!condition) {
+            agent.showGoal();
+          } else {
+            await agent.pursueGoal(agent.setGoal(condition));
+            saveSession(agent.history());
+          }
+          ask();
+          return;
+        }
+        if (input === "/loop" || input.startsWith("/loop ")) {
+          await agent.runLoop(input.slice("/loop".length).trim());
+          saveSession(agent.history());
+          ask();
           return;
         }
         // /clear：清空对话历史（也就等于开了一个新会话）

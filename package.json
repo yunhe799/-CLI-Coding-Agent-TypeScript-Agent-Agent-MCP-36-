@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
-    "test": "node tests/subagent.offline.test.mjs && node tests/mcp.offline.test.mjs && node tests/permissions.offline.test.mjs"
+    "test": "node tests/subagent.offline.test.mjs && node tests/mcp.offline.test.mjs && node tests/permissions.offline.test.mjs && node tests/autonomy.offline.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
