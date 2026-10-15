@@ -6,7 +6,15 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
-    "test": "node tests/subagent.offline.test.mjs && node tests/mcp.offline.test.mjs && node tests/permissions.offline.test.mjs && node tests/autonomy.offline.test.mjs"
+    "pretest": "tsc",
+    "test": "node tests/subagent.offline.test.mjs && node tests/mcp.offline.test.mjs && node tests/permissions.offline.test.mjs && node tests/autonomy.offline.test.mjs && node tests/context.offline.test.mjs"
+    ,
+    "preeval:mock": "tsc",
+    "eval:mock": "node evals/runner.mjs --mock",
+    "preeval:live": "tsc",
+    "preweb": "tsc",
+    "web": "node web/server.mjs",
+    "eval:live": "node evals/runner.mjs --live"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
