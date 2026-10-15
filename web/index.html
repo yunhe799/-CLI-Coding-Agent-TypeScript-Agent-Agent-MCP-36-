@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>my-coding-agent · 演示台</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --line:#2a3038; --fg:#e6edf3; --dim:#8b949e;
+    --accent:#7c5cfc; --tool:#d29922; --ok:#3fb950; --user:#1f6feb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;font-size:17px;line-height:1.7}
+  header{padding:22px 28px 14px;border-bottom:1px solid var(--line)}
+  h1{margin:0;font-size:23px;letter-spacing:.3px}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);font-size:15px;margin-top:4px}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px}
+  .stat b{color:var(--ok);font-size:16px}
+  main{max-width:1040px;margin:0 auto;padding:20px 28px 120px}
+  .presets{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+  .presets button{background:var(--panel);color:var(--fg);border:1px solid var(--line);
+    border-radius:20px;padding:8px 16px;font-size:15px;cursor:pointer}
+  .presets button:hover{border-color:var(--accent);color:#fff}
+  .msg{margin:0 0 18px}
+  .who{font-size:13px;color:var(--dim);margin-bottom:4px;letter-spacing:.5px}
+  .bubble{padding:12px 16px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
+  .user .bubble{background:var(--user);color:#fff;margin-left:auto;max-width:80%}
+  .user{text-align:right}
+  .agent .bubble{background:var(--panel);border:1px solid var(--line)}
+  .tool{font-family:Consolas,"Cascadia Mono",monospace;font-size:14px;color:var(--tool);
+    background:#1d1a10;border:1px solid #3a2f12;border-radius:8px;padding:7px 12px;margin:6px 0;
+    white-space:pre-wrap;word-break:break-all}
+  .status{font-size:13px;color:var(--dim);font-family:Consolas,monospace;margin:4px 0}
+  .err{color:#f85149}
+  footer{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);
+    padding:14px 28px;display:flex;gap:12px;align-items:center}
+  footer input{flex:1;background:#0d1117;color:var(--fg);border:1px solid var(--line);
+    border-radius:8px;padding:12px 14px;font-size:16px;font-family:inherit}
+  footer button{background:var(--accent);color:#fff;border:0;border-radius:8px;
+    padding:12px 22px;font-size:16px;cursor:pointer}
+  footer button:disabled{opacity:.5;cursor:default}
+  footer .ghost{background:transparent;border:1px solid var(--line);color:var(--dim);padding:12px 16px}
+  .cursor::after{content:"▊";color:var(--accent);animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+</style>
+</head>
+<body>
+<header>
+  <h1>my-coding-agent <span>· 演示台</span></h1>
+  <div class="sub">一个从零手写的 CLI Coding Agent（TypeScript）。页面里跑的就是命令行里那套代码——工具调用链实时可见。</div>
+  <div class="stats">
+    <div class="stat">模块 <b>12</b></div>
+    <div class="stat">离线断言 <b>64</b></div>
+    <div class="stat">评测用例 <b>36</b></div>
+    <div class="stat">真模型通过率 <b>96.6%</b></div>
+    <div class="stat">危险操作拦截率 <b>100%</b></div>
+    <div class="stat">成本/任务 <b>¥0.0026</b></div>
+  </div>
+</header>
+
+<main>
+  <div class="presets">
+    <button data-q="为什么 src/context.ts 里的压缩阈值是 20？用考古工具查出来龙去脉，给出是哪次提交、当时说了什么。">🔎 考古：这段代码为什么长这样</button>
+    <button data-q="用 run_shell 执行：git push origin main">🛡 危险命令会被拦吗</button>
+    <button data-q="读一下 package.json 和 src/context.ts，把两者的行数加起来告诉我">🧰 多步：读两个文件并计算</button>
+    <button data-q="/loop 把 README 的标题读出来">🔁 自治：/loop 自定节奏</button>
+  </div>
+  <div id="log"></div>
+</main>
+
+<footer>
+  <input id="input" placeholder="问点什么…（也可以点上面的按钮）" autocomplete="off" />
+  <button id="send">发送</button>
+  <button id="clear" class="ghost">清空</button>
+</footer>
+
+<script>
+const log = document.getElementById("log");
+const input = document.getElementById("input");
+const sendBtn = document.getElementById("send");
+
+function el(cls, html) {
+  const d = document.createElement("div");
+  d.className = cls;
+  if (html !== undefined) d.innerHTML = html;
+  return d;
+}
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+async function ask(message) {
+  log.append(el("msg user", `<div class="who">你</div><div class="bubble">${esc(message)}</div>`));
+  const agent = el("msg agent", `<div class="who">Agent</div>`);
+  const bubble = el("bubble cursor", "");
+  agent.append(bubble);
+  log.append(agent);
+  log.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  sendBtn.disabled = true;
+  let text = "";
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const frames = buf.split("\n\n");
+      buf = frames.pop();
+      for (const f of frames) {
+        const line = f.split("\n").find((l) => l.startsWith("data: "));
+        if (!line) continue;
+        const ev = JSON.parse(line.slice(6));
+        if (ev.type === "tool") {
+          // 工具调用插在正文前面，录视频时这一串最抓眼
+          agent.insertBefore(el("div", `<div class="tool">→ ${esc(ev.name)}(${esc(ev.input)})</div>`), bubble);
+        } else if (ev.type === "text") {
+          text += ev.text;
+          bubble.textContent = text;
+        } else if (ev.type === "status") {
+          agent.insertBefore(el("div", `<div class="status">${esc(ev.text)}</div>`), bubble);
+        } else if (ev.type === "done") {
+          bubble.classList.remove("cursor");
+          if (!text.trim()) bubble.textContent = "(本轮没有文本输出)";
+        }
+        log.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }
+  } catch (e) {
+    bubble.classList.remove("cursor");
+    bubble.append(el("div", `<div class="status err">出错：${esc(e.message)}</div>`));
+  } finally {
+    bubble.classList.remove("cursor");
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+
+document.querySelectorAll(".presets button").forEach((b) =>
+  b.addEventListener("click", () => {
+    input.value = "";
+    ask(b.dataset.q);
+  }),
+);
+sendBtn.addEventListener("click", () => {
+  const v = input.value.trim();
+  if (v) { input.value = ""; ask(v); }
+});
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendBtn.click();
+});
+document.getElementById("clear").addEventListener("click", () => (log.innerHTML = ""));
+input.focus();
+</script>
+</body>
+</html>
