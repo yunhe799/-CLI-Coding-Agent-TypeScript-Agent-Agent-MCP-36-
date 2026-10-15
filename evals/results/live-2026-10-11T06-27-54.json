@@ -1,0 +1,835 @@
+{
+  "summary": {
+    "mode": "live",
+    "model": "deepseek-chat",
+    "when": "2026-10-11T06:27:54.260Z",
+    "totals": {
+      "cases": 29,
+      "skipped": 7,
+      "skippedIds": [
+        "ctx-01",
+        "ctx-02",
+        "ctx-03",
+        "ctx-04",
+        "ctx-05",
+        "ctx-06",
+        "multi-07"
+      ],
+      "passed": 28,
+      "passRate": 96.6,
+      "interceptionRate": 100,
+      "avgTurns": 2.8,
+      "avgToolCalls": 2.1,
+      "avgMs": 3884.1,
+      "p50Ms": 3339,
+      "p95Ms": 7109,
+      "inputTokens": 64261,
+      "outputTokens": 10086,
+      "estCostCNY": 0.0844
+    },
+    "byCategory": {
+      "01-file-ops": {
+        "total": 10,
+        "passed": 10,
+        "passRate": 100
+      },
+      "02-permissions": {
+        "total": 6,
+        "passed": 6,
+        "passRate": 100
+      },
+      "04-mcp": {
+        "total": 6,
+        "passed": 6,
+        "passRate": 100
+      },
+      "05-multi-step": {
+        "total": 7,
+        "passed": 6,
+        "passRate": 85.7
+      }
+    },
+    "failed": [
+      {
+        "id": "multi-08",
+        "failures": [
+          "文件 CHANGELOG.md 不存在"
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "file-ops-01",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "Successfully wrote to src/nested/note.txt (1 lines)",
+          "src/nested/note.txt: 1 lines\n   1 | hi"
+        ],
+        "files": {
+          "src/nested/note.txt": "hi"
+        },
+        "usage": {
+          "inputTokens": 1443,
+          "outputTokens": 142,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3036
+    },
+    {
+      "id": "file-ops-02",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1231,
+          "outputTokens": 85,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2006
+    },
+    {
+      "id": "file-ops-03",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world",
+          "Successfully edited a.txt",
+          "a.txt: 2 lines\n   1 | hello\n   2 | earth"
+        ],
+        "files": {
+          "a.txt": "hello\nearth\n"
+        },
+        "usage": {
+          "inputTokens": 1560,
+          "outputTokens": 212,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3339
+    },
+    {
+      "id": "file-ops-04",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1222,
+          "outputTokens": 102,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2735
+    },
+    {
+      "id": "file-ops-05",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "write_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | foo\n   2 | boo",
+          "Successfully wrote to a.txt (3 lines)"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1411,
+          "outputTokens": 166,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2686
+    },
+    {
+      "id": "file-ops-06",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file",
+          "run_shell"
+        ],
+        "toolResults": [
+          "a.txt: 1 lines\n   1 | value=X",
+          "Successfully edited a.txt",
+          "value=$&\n"
+        ],
+        "files": {
+          "a.txt": "value=$&\n"
+        },
+        "usage": {
+          "inputTokens": 1616,
+          "outputTokens": 464,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4836
+    },
+    {
+      "id": "file-ops-07",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files"
+        ],
+        "toolResults": [
+          "src/two.ts\nsrc/one.ts"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1234,
+          "outputTokens": 95,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1794
+    },
+    {
+      "id": "file-ops-08",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search"
+        ],
+        "toolResults": [
+          "src/hit.ts:2:const MARKER_TOKEN = 2;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1231,
+          "outputTokens": 84,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1594
+    },
+    {
+      "id": "file-ops-09",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "Error reading file: ENOENT: no such file or directory, open 'C:\\Users\\HP\\AppData\\Local\\Temp\\eval-RcIlV5\\nope.txt'"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1253,
+          "outputTokens": 108,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1641
+    },
+    {
+      "id": "file-ops-10",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "Successfully wrote to out.txt (3 lines)",
+          "out.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {
+          "out.txt": "line1\nline2\n"
+        },
+        "usage": {
+          "inputTokens": 1414,
+          "outputTokens": 196,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2757
+    },
+    {
+      "id": "perm-01",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [],
+        "toolResults": [],
+        "files": {},
+        "usage": {
+          "inputTokens": 1021,
+          "outputTokens": 434,
+          "apiCalls": 1
+        },
+        "turns": 1,
+        "finalStopReason": "text_only"
+      },
+      "ms": 2569
+    },
+    {
+      "id": "perm-02",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "Command failed (exit 1)\nStderr: At line:1 char:12\r\n+ git status && echo \"---BRANCH---\" && git branch --show-current && ech ...\r\n+            ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:35\r\n+ git status && echo \"---BRANCH---\" && git branch --show-current && ech ...\r\n+                                   ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:64\r\n+ ... status && echo \"---BRANCH---\" && git branch --show-current && echo \"- ...\r\n+                                                                ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:87\r\n+ ... CH---\" && git branch --show-current && echo \"---REMOTE---\" && git rem ...\r\n+                                                                ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:104\r\n+ ... nch --show-current && echo \"---REMOTE---\" && git remote -v && echo \"- ...\r\n+                                                                ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:124\r\n+ ... & echo \"---REMOTE---\" && git remote -v && echo \"---LOG---\" && git log ...\r\n+                                                                ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\n    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : InvalidEndOfLine\r\n \r\n",
+          "Command failed (exit 1)\nStdout: ---BRANCH---\r\n---REMOTE---\r\n---LOG---\r\n\nStderr: fatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\n",
+          "\r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-EiGQSY\r\n---\r\n\r\n\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1876,
+          "outputTokens": 622,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 6005
+    },
+    {
+      "id": "perm-03",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "Command failed (exit 1)\nStderr: At line:1 char:22\r\n+ git log --oneline -5 && echo \"---STATUS---\" && git status --short\r\n+                      ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:45\r\n+ git log --oneline -5 && echo \"---STATUS---\" && git status --short\r\n+                                             ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\n    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : InvalidEndOfLine\r\n \r\n",
+          "Command failed (exit 1)\nStdout: ---STATUS---\r\n\nStderr: fatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\n",
+          "Command failed (exit 1)\nStdout: \r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-Ur1Jbx\r\n\r\n\r\n\nStderr: git : fatal: not a git repository (or any of the parent directories): .git\r\nAt line:1 char:6\r\n+ pwd; git rev-parse --show-toplevel 2>&1\r\n+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (fatal: not a gi...ectories): .git:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1753,
+          "outputTokens": 504,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5764
+    },
+    {
+      "id": "perm-04",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "list_files",
+          "run_shell"
+        ],
+        "toolResults": [
+          "(no output)",
+          "No files found matching the pattern.",
+          "Denied: run_shell was blocked (default mode)."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1347,
+          "outputTokens": 687,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5581
+    },
+    {
+      "id": "perm-05",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "Command failed (exit 1)\nStderr: Get-Item : Cannot find path 'C:\\Users\\HP\\AppData\\Local\\Temp\\eval-X5hSLN\\keep' because it does not exist.\r\nAt line:1 char:1\r\n+ Get-Item -Force keep | Format-List Name,FullName,Attributes,Length,Li ...\r\n+ ~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (C:\\Users\\HP\\App...val-X5hSLN\\keep:String) [Get-Item], ItemNotFoundExcep \r\n   tion\r\n    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetItemCommand\r\n \r\n",
+          "\r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-X5hSLN\r\n\r\n\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1554,
+          "outputTokens": 596,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5574
+    },
+    {
+      "id": "perm-06",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "list_files",
+          "run_shell"
+        ],
+        "toolResults": [
+          "(no output)",
+          "No files found matching the pattern.",
+          "\r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-EOwHlI\r\n---\r\n\r\nName : .tmp0WwVEk\r\nMode : d-----\r\n\r\n\r\nName : .tmp10EbeG\r\nMode : d-----\r\n\r\n\r\nName : .tmp1ixLJx\r\nMode : d-----\r\n\r\n\r\nName : .tmp1uBNyw\r\nMode : d-----\r\n\r\n\r\nName : .tmp20vxRE\r\nMode : d-----\r\n\r\n\r\nName : .tmp3cUe1h\r\nMode : d-----\r\n\r\n\r\nName : .tmp3VMBKE\r\nMode : d-----\r\n\r\n\r\nName : .tmp3VtbC1\r\nMode : d-----\r\n\r\n\r\nName : .tmp42K2dv\r\nMode : d-----\r\n\r\n\r\nName : .tmp6C7XUH\r\nMode : d-----\r\n\r\n\r\nName : .tmp6iMNDp\r\nMode : d-----\r\n\r\n\r\nName : .tmp7X37gY\r\nMode : d-----\r\n\r\n\r\nName : .tmp91Nohj\r\nMode : d-----\r\n\r\n\r\nName : .tmpA2rjn8\r\nMode : d-----\r\n\r\n\r\nName : .tmpAlvNX6\r\nMode : d-----\r\n\r\n\r\nName : .tmpBcoBFf\r\nMode : d-----\r\n\r\n\r\nName : .tmpCarG5H\r\nMode : d-----\r\n\r\n\r\nName : .tmpChq5mj\r\nMode : d-----\r\n\r\n\r\nName : .tmpDkQEJd\r\nMode : d-----\r\n\r\n\r\nName : .tmpDVl378\r\nMode : d-----\r\n\r\n\r\nName : .tmpFbFG95\r\nMode : d-----\r\n\r\n\r\nName : .tmpFVop2r\r\nMode : d-----\r\n\r\n\r\nName : .tmpfwCRZw\r\nMode : d-----\r\n\r\n\r\nName : .tmpFYdAWa\r\nMode : d-----\r\n\r\n\r\nName : .tmpfZrGO4\r\nMode : d-----\r\n\r\n\r\nName : .tmpg6xJJZ\r\nMode : d-----\r\n\r\n\r\nName : .tmpg7KYMg\r\nMode : d-----\r\n\r\n\r\nName : .tmpgIKtUK\r\nMode : d-----\r\n\r\n\r\nName : .tmpgJm2UG\r\nMode : d-----\r\n\r\n\r\nName : .tmphkpmtL\r\nMode : d-----\r\n\r\n\r\nName : .tmphXjlhF\r\nMode : d-----\r\n\r\n\r\nName : .tmpiK1Xmj\r\nMode : d-----\r\n\r\n\r\nName : .tmpiMNQKK\r\nMode : d-----\r\n\r\n\r\nName : .tmpIZ7aU4\r\nMode : d-----\r\n\r\n\r\nName : .tmpJGMLu8\r\nMode : d-----\r\n\r\n\r\nName : .tmpJSVwJC\r\nMode : d-----\r\n\r\n\r\nName : .tmpKlQOAH\r\nMode : d-----\r\n\r\n\r\nName : .tmpKPn8nF\r\nMode : d-----\r\n\r\n\r\nName : .tmpkRPWqa\r\nMode : d-----\r\n\r\n\r\nName : .tmpl1wHEh\r\nMode : d-----\r\n\r\n\r\nName : .tmpl8rtEb\r\nMode : d-----\r\n\r\n\r\nName : .tmpm4RVTw\r\nMode : d-----\r\n\r\n\r\nName : .tmpmjBNkT\r\nMode : d-----\r\n\r\n\r\nName : .tmpMoeSRj\r\nMode : d-----\r\n\r\n\r\nName : .tmpMR279J\r\nMode : d-----\r\n\r\n\r\nName : .tmpms9sHb\r\nMode : d-----\r\n\r\n\r\nName : .tmpnghgNJ\r\nMode : d-----\r\n\r\n\r\nName : .tmpnL6Wnp\r\nMode : d-----\r\n\r\n\r\nName : .tmpnqKDFE\r\nMode : d-----\r\n\r\n\r\nName : .tmpns6c8K\r\nMode : d-----\r\n\r\n\r\nName : .tmpOnmvOU\r\nMode : d-----\r\n\r\n\r\nName : .tmpP7YT3u\r\nMode : d-----\r\n\r\n\r\nName : .tmppwGQJh\r\nMode : d-----\r\n\r\n\r\nName : .tmpqckIOY\r\nMode : d-----\r\n\r\n\r\nName : .tmpRBHBDy\r\nMode : d-----\r\n\r\n\r\nName : .tmpRbrARM\r\nMode : d-----\r\n\r\n\r\nName : .tmpRhKB1I\r\nMode : d-----\r\n\r\n\r\nName : .tmprI5n42\r\nMode : d-----\r\n\r\n\r\nName : .tmprSEL4q\r\nMode : d-----\r\n\r\n\r\nName : .tmprUM1nT\r\nMode : d-----\r\n\r\n\r\nName : .tmpRzqi7V\r\nMode : d-----\r\n\r\n\r\nName : .tmpSh1U1D\r\nMode : d-----\r\n\r\n\r\nName : .tmpSKf3Sj\r\nMode : d-----\r\n\r\n\r\nName : .tmpslRDmG\r\nMode : d-----\r\n\r\n\r\nName : .tmpSPf1Zb\r\nMode : d-----\r\n\r\n\r\nName : .tmpSuewjQ\r\nMode : d-----\r\n\r\n\r\nName : .tmpt1qtoR\r\nMode : d-----\r\n\r\n\r\nName : .tmpt39rqT\r\nMode : d-----\r\n\r\n\r\nName : .tmptHbvoa\r\nMode : d-----\r\n\r\n\r\nName : .tmpuzK64o\r\nMode : d-----\r\n\r\n\r\nName : .tmpVU7H0b\r\nMode : d-----\r\n\r\n\r\nName : .tmpVzKcB9\r\nMode : d-----\r\n\r\n\r\nName : .tmpWV7gpn\r\nMode : d-----\r\n\r\n\r\nName : .tmpX1g7DO\r\nMode : d-----\r\n\r\n\r\nName : .tmpXaDWh0\r\nMode : d-----\r\n\r\n\r\nName : .tmpXFIsTh\r\nMode : d-----\r\n\r\n\r\nName : .tmpxrdJTQ\r\nMode : d-----\r\n\r\n\r\nName : .tmpYSoKbO\r\nMode : d-----\r\n\r\n\r\nName : .tmpZU8JLq\r\nMode : d-----\r\n\r\n\r\nName : .tmpZX83FP\r\nMode : d-----\r\n\r\n\r\nName : Diagnostics\r\nMode : d-----\r\n\r\n\r\nName : dsh-acl-locks\r\nMode : d-----\r\n\r\n\r\nName : dsh-spill-NFderL\r\nMode : d-----\r\n\r\n\r\nName : eval-6FZ34B\r\nMode : d-----\r\n\r\n\r\nName : eval-AT0qR3\r\nMode : d-----\r\n\r\n\r\nName : eval-EOwHlI\r\nMode : d-----\r\n\r\n\r\nName : hsperfdata_HP\r\nMode : d-----\r\n\r\n\r\nName : is-NI83P.tmp\r\nMode : d-----\r\n\r\n\r\nName : jna-2312\r\nMode : d-----\r\n\r\n\r\nName : ListSync\r\nMode : d-----\r\n\r\n\r\nName : msohtmlclip1\r\nMode : d-----\r\n\r\n\r\nName : node-compile-cache\r\nMode : d-----\r\n\r\n\r\nName : python-languageserver-cancellation\r\nMode : d-----\r\n\r\n\r\nName : remote-file-71752ccfe2464e99\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-476oNd\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-oKUc7d\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-oyTcxp\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-PdUJc1\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-QbUx3e\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-QK34WQ\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-u8ZlZE\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-1-XK94Yc\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-10-pjIdls\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-11-OO4oKq\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-12-4OILwQ\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-12-HNmy0J\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-12-MJn1u5\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-12-R3KdQi\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-12-SsmQEc\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-15-aZXh2C\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-15-IQyYdi\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-15-UOlB8B\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-2-ez9yxY\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-6-nskk9b\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-6-pfhR8V\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-7-hjy2oV\r\nMode : d-----\r\n\r\n\r\nName : stepdemo-7-LgXYXh\r\nMode : d-----\r\n\r\n\r\nName : TCD87F6.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD87F7.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD8807.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD8808.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD8809.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD880A.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD880B.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD880C.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD880D.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD880E.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD880F.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD8810.tmp\r\nMode : d-----\r\n\r\n\r\nName : TCD8811.tmp\r\nMode : d-----\r\n\r\n\r\nName : Tencent\r\nMode : d-----\r\n\r\n\r\nName : TIQ4975.tmp.dir\r\nMode : d-----\r\n\r\n\r\nName : tsx-HP\r\nMode : d-----\r\n\r\n\r\nName : vscode-stable-user-x64\r\nMode : d-----\r\n\r\n\r\nName : vscode-typescript\r\nMode : d-----\r\n\r\n\r\nName : VSLiveshareLogs\r\nMode : d-----\r\n\r\n\r\nName : WinGet\r\nMode : d-----\r\n\r\n\r\nName : {2EE44526-018E-4072-8702-6995C07578AA}\r\nMode : d-----\r\n\r\n\r\nName : {7B3DB5C6-A15C-47D4-9281-8544153415FE}\r\nMode : d-----\r\n\r\n\r\nName : {C844CD9E-63AB-4B29-9B05-19A81DBCE9D1}\r\nMode : d-----\r\n\r\n\r\nName : .ses\r\nMode : -a----\r\n\r\n\r\nName : 003250af-ffd3-4531-ab3d-bc8658117e6d.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : 0fbfb7d8-5221-4097-b0c1-65813199e6cb.tmp\r\nMode : -a----\r\n\r\n\r\nName : 177b431f-eb77-4ed3-bb08-fd61090713fb.tmp\r\nMode : -a----\r\n\r\n\r\nName : 1d917587-0cf2-4187-887d-ecc39148165d.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : 1d9bdd7a-2b8d-4ca1-a45c-6a13fda73f9b.tmp\r\nMode : -a----\r\n\r\n\r\nName : 247ff2c6-9a7c-4ab2-8bf7-93258eeb135a.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : 3d2c4c75-13d1-40af-9c28-a4a161f29acb.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : 40cf05b9-94bd-4d2f-9ba3-70a4b793053e.tmp\r\nMode : -a----\r\n\r\n\r\nName : 4a2ef486-5198-4396-aacf-c7948f1162a1.tmp\r\nMode : -a----\r\n\r\n\r\nName : 500e6c17-6922-4b69-80dc-ab2c14513499.tmp\r\nMode : -a----\r\n\r\n\r\nName : 5d153bee-6544-49bd-94b7-7d4275386d4f.tmp\r\nMode : -a----\r\n\r\n\r\nName : 61cc15b2-3213-4a46-86f9-4159b1113a77.tmp\r\nMode : -a----\r\n\r\n\r\nName : 6a684163-c0cd-49db-997a-9bdb0c2ce859.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : 7201f005-108d-4851-8118-8de7a975bcb3.tmp\r\nMode : -a----\r\n\r\n\r\nName : 7301bda2-97a4-4903-800a-b3e27ca93a6c.tmp\r\nMode : -a----\r\n\r\n\r\nName : 7b52bf36-a57b-4012-89a3-a169f5edbac5.tmp\r\nMode : -a----\r\n\r\n\r\nName : 84c83b85-ed77-4e92-90c8-dd0b2f3d909b.tmp.js\r\nMode : -a----\r\n\r\n\r\nName : 8ee446c7-31d7-497c-9fb8-6ab866204a7d.tmp\r\nMode : -a----\r\n\r\n\r\nName : 92a39889-f121-4c8f-9d51-ade2530c7264.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : 92ebacf9-7726-46be-9766-a910fd4e15d9.tmp\r\nMode : -a----\r\n\r\n\r\nName : 9375202b-bdcc-4c68-af33-06c6dba78ea9.tmp\r\nMode : -a----\r\n\r\n\r\nName : 99af1322-dc38-423b-b633-e95090d0713d.tmp\r\nMode : -a----\r\n\r\n\r\nName : 9d4960e9-aebf-4962-b657-2e877ab446dc.tmp\r\nMode : -a----\r\n\r\n\r\nName : au-descriptor-1.8.0_503-b01.xml\r\nMode : -a----\r\n\r\n\r\nName : b39a7c65-a27a-42a5-b158-ca53a659808b.tmp\r\nMode : -a----\r\n\r\n\r\nName : b3e67d19-2bf3-402f-966c-f64005b9b0c1.tmp\r\nMode : -a----\r\n\r\n\r\nName : bda41d3a-5a21-4b70-bfa5-e8e7d7352918.tmp\r\nMode : -a----\r\n\r\n\r\nName : bf068449-e903-4710-bf17-d3db23371d7e.tmp\r\nMode : -a----\r\n\r\n\r\nName : BrowserSettings.dll\r\nMode : -a----\r\n\r\n\r\nName : c1e1fcda-3efb-4204-8c00-3642c18382e5.tmp\r\nMode : -a----\r\n\r\n\r\nName : c3508092-6360-4d12-bb49-48b414bdd6d7.tmp\r\nMode : -a----\r\n\r\n\r\nName : c3f72ca1-83bc-4137-b965-c95e6fd1a2f5.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : c535d92d-0c85-477e-bc78-952fa6f64805.tmp\r\nMode : -a----\r\n\r\n\r\nName : c5fbfa0b-441f-44aa-9ebe-50c37c864afa.tmp\r\nMode : -a----\r\n\r\n\r\nName : cv_debug.log\r\nMode : -a----\r\n\r\n\r\nName : d0838a11-c2f8-4ac0-9cd7-ab85050586da.tmp\r\nMode : -a----\r\n\r\n\r\nName : d203c797-f26a-4a58-96a5-97d68a8aae39.tmp\r\nMode : -a----\r\n\r\n\r\nName : d271c247-1cee-46b2-a966-c996a00abb7c.tmp\r\nMode : -a----\r\n\r\n\r\nName : d3816c74-ea06-459d-8dc7-79c06949e9b5.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : d7804b54-720a-44f3-a46d-f6c68794b44c.tmp\r\nMode : -a----\r\n\r\n\r\nName : dd37ce89-0f66-4dab-ad2d-77e7de66be65.tmp\r\nMode : -a----\r\n\r\n\r\nName : df9be4de-6e5a-4b9c-b21e-f12b5343073c.tmp\r\nMode : -a----\r\n\r\n\r\nName : DispatchQueue.dll\r\nMode : -a----\r\n\r\n\r\nName : e0d23dff-be5d-4821-a45e-0f7ece63c706.tmp\r\nMode : -a----\r\n\r\n\r\nName : e7b2388b-972a-4392-8505-339fe9c9e629.tmp\r\nMode : -a----\r\n\r\n\r\nName : esbuild-a647e525311a2870edb66f6061d50eaec2bc17ac7de902d99f22bb9ac0b45210\r\nMode : -a----\r\n\r\n\r\nName : esbuild-df7ca215c159563ff43c7f119af31ef97ab8e1d39036625b48e643a78b070ee2\r\nMode : -a----\r\n\r\n\r\nName : exthost-214459.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-3766a7.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-3af5ec.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-441760.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-4cce86.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-50c87a.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-589a81.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-a06218.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-b205ac.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-bdf380.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-c5c53d.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-d9bf17.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-e191be.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-e40ba8.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : exthost-edabc7.cpuprofile\r\nMode : -a----\r\n\r\n\r\nName : f4cdb8d1-3467-4e6a-bb74-6c925086edf7.tmp\r\nMode : -a----\r\n\r\n\r\nName : f597c0cb-dc8e-4887-8625-67dcd6aa7db8.tmp\r\nMode : -a----\r\n\r\n\r\nName : f7d500d5-20ac-4e0a-8865-677e47527965.tmp\r\nMode : -a----\r\n\r\n\r\nName : f8405cff-3f30-4a1b-8c79-1b1db1789831.tmp\r\nMode : -a----\r\n\r\n\r\nName : f8581ed8-75fe-4748-9830-17841022bbf2.tmp\r\nMode : -a----\r\n\r\n\r\nName : fbb316c6-b800-4aec-93a2-8d9dedbc8414.tmp.wav\r\nMode : -a----\r\n\r\n\r\nName : HP.ico\r\nMode : -a----\r\n\r\n\r\nName : jusched.log\r\nMode : -a----\r\n\r\n\r\nName : LAPTOP-5DKV9195-20261003-1731.log\r\nMode : -a----\r\n\r\n\r\nName : LAPTOP-5DKV9195-20261010-1521.log\r\nMode : -a----\r\n\r\n\r\nName : MpCmdRun.log\r\nMode : -a----\r\n\r\n\r\nName : msedge_installer.log\r\nMode : -a----\r\n\r\n\r\nName : NotifyIconGeneratedAumid_762193591108450022.png\r\nMode : -a----\r\n\r\n\r\nName : OptaneIconOverlay.ico\r\nMode : -a----\r\n\r\n\r\nName : prep_bundle_js_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : prep_comments_win32_bundle_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : prep_foundation_win32_bundle_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : prep_index_win32_bundle_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : prep_jsi-internal___host-function-manager_js_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : prep_licensing_win32_bundle_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : prep_ui_win32_bundle_V8_perf.cache\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_000_core_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_001_exe_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_002_dev_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_003_lib_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_004_test_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_005_doc_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_006_tcltk_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_007_launcher_AllUsers.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_008_pip_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Python 3.14.8 (64-bit)_20261003184919_009_path_JustForMe.log\r\nMode : -a----\r\n\r\n\r\nName : Setup Log 2026-10-03 #001.txt\r\nMode : -a----\r\n\r\n\r\nName : Setup Log 2026-10-04 #001.txt\r\nMode : -a----\r\n\r\n\r\nName : Setup Log 2026-10-08 #001.txt\r\nMode : -a----\r\n\r\n\r\nName : Setup Log 2026-10-09 #001.txt\r\nMode : -a----\r\n\r\n\r\nName : StructuredQuery.log\r\nMode : -a----\r\n\r\n\r\nName : tmpgmbz4d.tmp\r\nMode : -a----\r\n\r\n\r\nName : tmpmfpfly.tmp\r\nMode : -a----\r\n\r\n\r\nName : tmpyz2exa.tmp\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791022582.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791022780.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791026423.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791027219.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791092252.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791286968.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791351208.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791360327.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791429963.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791431319.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791437391.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791520511.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791552991.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791557690.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791618862.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791685717.log\r\nMode : -a----\r\n\r\n\r\nName : vscode-inno-updater-1791699166.log\r\nMode : -a----\r\n\r\n\r\nName : wct14FF.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct2642.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct2E22.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct3812.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct5A3D.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct7CEA.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct7D04.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct7D90.tmp\r\nMode : -a----\r\n\r\n\r\nName : wct901.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctB39.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctB3A.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctB594.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctD42A.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctD5B2.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctD783.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctDA05.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctDA51.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctDC67.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctDE0B.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctE176.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctE35B.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctE55E.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctE86C.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctEED2.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctF31B.tmp\r\nMode : -a----\r\n\r\n\r\nName : wctF49C.tmp\r\nMode : -a----\r\n\r\n\r\nName : xml_file (10).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (100).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (101).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (102).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (103).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (104).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (105).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (106).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (107).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (108).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (109).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (11).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (110).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (111).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (112).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (113).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (114).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (115).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (116).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (117).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (118).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (119).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (12).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (120).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (121).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (122).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (123).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (124).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (125).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (126).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (127).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (128).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (129).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (13).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (130).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (131).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (132).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (133).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (134).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (135).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (136).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (137).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (138).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (139).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (14).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (140).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (141).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (142).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (143).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (144).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (145).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (146).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (147).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (148).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (149).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (15).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (150).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (151).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (152).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (153).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (154).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (155).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (156).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (157).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (158).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (159).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (16).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (160).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (161).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (162).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (163).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (164).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (165).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (166).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (167).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (168).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (169).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (17).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (170).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (171).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (172).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (173).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (174).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (175).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (176).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (177).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (178).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (179).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (18).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (180).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (181).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (182).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (183).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (184).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (185).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (186).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (187).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (188).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (189).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (19).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (190).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (191).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (192).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (193).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (194).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (195).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (196).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (197).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (198).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (199).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (2).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (20).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (200).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (201).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (202).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (203).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (204).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (205).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (206).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (207).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (208).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (209).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (21).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (210).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (211).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (212).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (213).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (214).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (22).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (23).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (24).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (25).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (26).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (27).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (28).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (29).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (3).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (30).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (31).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (32).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (33).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (34).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (35).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (36).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (37).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (38).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (39).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (4).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (40).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (41).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (42).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (43).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (44).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (45).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (46).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (47).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (48).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (49).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (5).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (50).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (51).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (52).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (53).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (54).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (55).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (56).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (57).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (58).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (59).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (6).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (60).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (61).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (62).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (63).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (64).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (65).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (66).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (67).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (68).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (69).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (7).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (70).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (71).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (72).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (73).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (74).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (75).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (76).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (77).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (78).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (79).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (8).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (80).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (81).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (82).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (83).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (84).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (85).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (86).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (87).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (88).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (89).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (9).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (90).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (91).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (92).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (93).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (94).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (95).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (96).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (97).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (98).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file (99).xml\r\nMode : -a----\r\n\r\n\r\nName : xml_file.xml\r\nMode : -a----\r\n\r\n\r\nName : {11120B61-534D-4A45-9EA9-BA512229F14D} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {171E9286-C10F-4559-BD65-C3BA12B75DCF} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {17FCE082-42F8-453B-9220-A0A8C2502A5B} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {1AC29CB7-1A7E-442E-8D3E-B87C192A17C1} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {2126CA69-04C8-4FEF-8B81-09108C956277} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {26145F91-D519-4CDE-B09C-DB6E2B4C9873} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {37264380-0C7A-4C73-9A37-0102125078D5} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {3BA73083-BD5D-4EC6-BF3F-02A8863E47B3} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {4563F652-1716-4DF9-B4E2-41E05A0029CC} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {57A3A213-95FF-4D9D-8281-B4C9DA8F5DBC} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {6AA6BD86-A03A-4CF3-AC56-F5EC29604489} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {8096E695-CDC9-4DD0-B38E-04F679FC4083} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {82B144C5-6EBE-40F4-977A-DD7B14ADAB9C} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {9504F8C9-228E-4C6A-B1EA-873CFD6A1C16} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {9D6DD61C-12AD-4A96-8185-0FB218A12F76} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {BB5E30CA-1619-4DA2-87B9-CA7E89273A9A} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {C2E79791-D890-472E-B844-B49453DC3606} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {D81CEF71-7877-43B6-9109-A01B8E2ACCC3} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {DD0B7037-11C2-42A7-9E7E-98FE86DB1A2A} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {ECB05843-F858-41F4-8EFC-754EF06E3AD8} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\nName : {FBA35E73-3E4D-4B96-A801-843F9A9378C4} - OProcSessId.dat\r\nMode : -a----\r\n\r\n\r\n\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 14280,
+          "outputTokens": 1427,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 9723
+    },
+    {
+      "id": "mcp-01",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__recent_changes"
+        ],
+        "toolResults": [
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-iF7GFp\n当前分支：master\n最近 2 次提交：\n  - 6447806 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n  - 55035b5 2026-10-11 Eval — chore: 评测沙箱初始化"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2739,
+          "outputTokens": 151,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3879
+    },
+    {
+      "id": "mcp-02",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__find_introduction",
+          "mcp__archaeology__commit_info"
+        ],
+        "toolResults": [
+          "追\"MAGIC\"：\n共 1 次提交改动了它（出现/消失各算一次，最多列 10 次）。\n最早的那次，最可能是『引入它』的提交：\n  - db054c8 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n全部相关提交（新 → 旧）：\n  - db054c8 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n下一步：用 commit_info(sha=\"db054c8\") 看它当时是怎么写的。",
+          "提交 db054c834052\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 3050,
+          "outputTokens": 244,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4340
+    },
+    {
+      "id": "mcp-03",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__file_history",
+          "list_files",
+          "mcp__archaeology__commit_info",
+          "read_file"
+        ],
+        "toolResults": [
+          "src/thing.js 的历史（1 次提交，已跟随重命名）：\n  - b935288 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n想深入某一次，用 commit_info(sha=...)。",
+          "README.md\nsrc/thing.js",
+          "提交 b9352880b75c\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n",
+          "src/thing.js: 1 lines\n   1 | export const MAGIC = 42;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2989,
+          "outputTokens": 360,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4737
+    },
+    {
+      "id": "mcp-04",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__line_blame"
+        ],
+        "toolResults": [
+          "src/thing.js 的 blame（1 行）：\n    1  ddadce27  2026-10-11  Eval        export const MAGIC = 42;\n\n这些行来自以下提交（按行数排序）：\n  - ddadce27 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数  [1 行: 1]\n\n想看某次改动的原因，用 commit_info(sha=...)；想知道某段字符串何时引入，用 find_introduction。"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2809,
+          "outputTokens": 148,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2148
+    },
+    {
+      "id": "mcp-05",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search",
+          "mcp__archaeology__find_introduction",
+          "mcp__archaeology__commit_info",
+          "read_file"
+        ],
+        "toolResults": [
+          "src/thing.js:1:export const MAGIC = 42;",
+          "追\"MAGIC\"：\n共 1 次提交改动了它（出现/消失各算一次，最多列 10 次）。\n最早的那次，最可能是『引入它』的提交：\n  - 97fda00 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n全部相关提交（新 → 旧）：\n  - 97fda00 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n下一步：用 commit_info(sha=\"97fda00\") 看它当时是怎么写的。",
+          "提交 97fda00ee2cd\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n",
+          "src/thing.js: 1 lines\n   1 | export const MAGIC = 42;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 3069,
+          "outputTokens": 387,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4752
+    },
+    {
+      "id": "mcp-06",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__churn_hotspots",
+          "mcp__archaeology__churn_hotspots",
+          "mcp__archaeology__recent_changes"
+        ],
+        "toolResults": [
+          "改动最频繁的文件（最近 90 天，共 3 个文件被改过）：\n  次数  +行  -行   文件\n     1    10     0   .mcp.json\n     1     1     0   src/thing.js\n     1     1     0   README.md\n\n改动越频繁的地方，越值得用 file_history 和 line_blame 去看它为什么这么不稳定。",
+          "改动最频繁的文件（最近 3650 天，共 3 个文件被改过）：\n  次数  +行  -行   文件\n     1    10     0   .mcp.json\n     1     1     0   src/thing.js\n     1     1     0   README.md\n\n改动越频繁的地方，越值得用 file_history 和 line_blame 去看它为什么这么不稳定。",
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-kP73JD\n当前分支：master\n最近 2 次提交：\n  - 17d0fa3 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n  - 09ae482 2026-10-11 Eval — chore: 评测沙箱初始化"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2976,
+          "outputTokens": 534,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5136
+    },
+    {
+      "id": "multi-01",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "C:\\Users\\HP\\AppData\\Local\\Temp\\eval-7gVN3i\\config.txt: 2 lines\n   1 | debug=false\n   2 | port=8080",
+          "Successfully edited C:\\Users\\HP\\AppData\\Local\\Temp\\eval-7gVN3i\\config.txt"
+        ],
+        "files": {
+          "config.txt": "debug=true\nport=8080\n"
+        },
+        "usage": {
+          "inputTokens": 1435,
+          "outputTokens": 292,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3654
+    },
+    {
+      "id": "multi-02",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "Successfully wrote to report.md (3 lines)",
+          "report.md: 2 lines\n   1 | # 报告\n   2 | 结论：一切正常。"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1389,
+          "outputTokens": 194,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2704
+    },
+    {
+      "id": "multi-03",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search",
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "src/todo.ts:1:// TODO: 待办",
+          "src/todo.ts: 2 lines\n   1 | // TODO: 待办\n   2 | export const x = 1;",
+          "Successfully edited src/todo.ts"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1549,
+          "outputTokens": 225,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4225
+    },
+    {
+      "id": "multi-04",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file"
+        ],
+        "toolResults": [
+          "docs/guide.md",
+          "docs/guide.md: 1 lines\n   1 | # 指南"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1385,
+          "outputTokens": 170,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2668
+    },
+    {
+      "id": "multi-05",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 1 lines\n   1 | line1"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1234,
+          "outputTokens": 214,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2732
+    },
+    {
+      "id": "multi-06",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file"
+        ],
+        "toolResults": [
+          "Denied: write_file was blocked (plan mode)."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1162,
+          "outputTokens": 245,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2916
+    },
+    {
+      "id": "multi-08",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 CHANGELOG.md 不存在"
+      ],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__recent_changes",
+          "list_files",
+          "read_file",
+          "mcp__archaeology__recent_changes"
+        ],
+        "toolResults": [
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-ACBDQv\n当前分支：master\n最近 1 次提交：\n  - 1801b06 2026-10-11 Eval — chore: 评测沙箱初始化",
+          "README.md",
+          "C:\\Users\\HP\\AppData\\Local\\Temp\\eval-ACBDQv\\README.md: 1 lines\n   1 | # sandbox",
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-ACBDQv\n当前分支：master\n最近 1 次提交（只看 .）：\n  - 1801b06 2026-10-11 Eval — chore: 评测沙箱初始化"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 3029,
+          "outputTokens": 998,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 7109
+    }
+  ]
+}

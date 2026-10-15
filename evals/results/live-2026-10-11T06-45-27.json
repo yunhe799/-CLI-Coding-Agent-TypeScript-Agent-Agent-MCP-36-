@@ -1,0 +1,847 @@
+{
+  "summary": {
+    "mode": "live",
+    "model": "deepseek-chat",
+    "when": "2026-10-11T06:45:27.536Z",
+    "totals": {
+      "cases": 29,
+      "skipped": 7,
+      "skippedIds": [
+        "ctx-01",
+        "ctx-02",
+        "ctx-03",
+        "ctx-04",
+        "ctx-05",
+        "ctx-06",
+        "multi-07"
+      ],
+      "passed": 28,
+      "passRate": 96.6,
+      "interceptionRate": 100,
+      "avgTurns": 2.9,
+      "avgToolCalls": 2.3,
+      "avgMs": 4079.5,
+      "p50Ms": 3262,
+      "p95Ms": 9004,
+      "inputTokens": 53356,
+      "outputTokens": 11404,
+      "estCostCNY": 0.0762
+    },
+    "byCategory": {
+      "01-file-ops": {
+        "total": 10,
+        "passed": 9,
+        "passRate": 90
+      },
+      "02-permissions": {
+        "total": 6,
+        "passed": 6,
+        "passRate": 100
+      },
+      "04-mcp": {
+        "total": 6,
+        "passed": 6,
+        "passRate": 100
+      },
+      "05-multi-step": {
+        "total": 7,
+        "passed": 7,
+        "passRate": 100
+      }
+    },
+    "failed": [
+      {
+        "id": "file-ops-01",
+        "failures": [
+          "文件 src/nested/note.txt 内容不对：期望 \"hi\"，实际 \"hi\\n\""
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "file-ops-01",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 src/nested/note.txt 内容不对：期望 \"hi\"，实际 \"hi\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "write_file",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "Successfully wrote to src/nested/note.txt (2 lines)",
+          "hi\r\n"
+        ],
+        "files": {
+          "src/nested/note.txt": "hi\n"
+        },
+        "usage": {
+          "inputTokens": 1679,
+          "outputTokens": 225,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4361
+    },
+    {
+      "id": "file-ops-02",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1214,
+          "outputTokens": 66,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1715
+    },
+    {
+      "id": "file-ops-03",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world",
+          "Successfully edited a.txt"
+        ],
+        "files": {
+          "a.txt": "hello\nearth\n"
+        },
+        "usage": {
+          "inputTokens": 1422,
+          "outputTokens": 159,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3262
+    },
+    {
+      "id": "file-ops-04",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1247,
+          "outputTokens": 138,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2230
+    },
+    {
+      "id": "file-ops-05",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "write_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | foo\n   2 | boo",
+          "Successfully wrote to a.txt (3 lines)"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1446,
+          "outputTokens": 190,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3056
+    },
+    {
+      "id": "file-ops-06",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "C:\\Users\\HP\\AppData\\Local\\Temp\\eval-FhSf48\\a.txt: 1 lines\n   1 | value=X",
+          "Successfully edited C:\\Users\\HP\\AppData\\Local\\Temp\\eval-FhSf48\\a.txt",
+          "C:\\Users\\HP\\AppData\\Local\\Temp\\eval-FhSf48\\a.txt: 1 lines\n   1 | value=$&"
+        ],
+        "files": {
+          "a.txt": "value=$&\n"
+        },
+        "usage": {
+          "inputTokens": 1659,
+          "outputTokens": 392,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4167
+    },
+    {
+      "id": "file-ops-07",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files"
+        ],
+        "toolResults": [
+          "src/two.ts\nsrc/one.ts"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1226,
+          "outputTokens": 86,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1685
+    },
+    {
+      "id": "file-ops-08",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search"
+        ],
+        "toolResults": [
+          "src/hit.ts:2:const MARKER_TOKEN = 2;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1222,
+          "outputTokens": 79,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1703
+    },
+    {
+      "id": "file-ops-09",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "Error reading file: ENOENT: no such file or directory, open 'C:\\Users\\HP\\AppData\\Local\\Temp\\eval-PNmSv1\\nope.txt'"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1231,
+          "outputTokens": 103,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1809
+    },
+    {
+      "id": "file-ops-10",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "Successfully wrote to out.txt (3 lines)",
+          "out.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {
+          "out.txt": "line1\nline2\n"
+        },
+        "usage": {
+          "inputTokens": 1211,
+          "outputTokens": 153,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2592
+    },
+    {
+      "id": "perm-01",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell"
+        ],
+        "toolResults": [
+          "Denied: run_shell was blocked (default mode)."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1276,
+          "outputTokens": 489,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4156
+    },
+    {
+      "id": "perm-02",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "list_files",
+          "run_shell"
+        ],
+        "toolResults": [
+          "Command failed (exit 1)\nStdout: ---\r\n---\r\n---\r\n\nStderr: fatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\n",
+          "No files found matching the pattern.",
+          "Command failed (exit 1)\nStdout: \r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-UgxHoW\r\n---\r\n\r\n\r\n\nStderr: Get-ChildItem : A parameter cannot be found that matches parameter name 'la'.\r\nAt line:1 char:21\r\n+ pwd; echo \"---\"; ls -la\r\n+                     ~~~\r\n    + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException\r\n    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand\r\n \r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1626,
+          "outputTokens": 445,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5930
+    },
+    {
+      "id": "perm-03",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "Command failed (exit 1)\nStdout: ---LOG---\r\n---BRANCH---\r\n\nStderr: fatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\n",
+          "---find .git---\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1360,
+          "outputTokens": 563,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5347
+    },
+    {
+      "id": "perm-04",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files"
+        ],
+        "toolResults": [
+          "No files found matching the pattern."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1154,
+          "outputTokens": 379,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3069
+    },
+    {
+      "id": "perm-05",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "run_shell",
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "(no output)",
+          "\r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-GtY8Qh\r\n\r\n\r\n",
+          "(no output)"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1863,
+          "outputTokens": 1029,
+          "apiCalls": 5
+        },
+        "turns": 5,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 8433
+    },
+    {
+      "id": "perm-06",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "(no output)"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1417,
+          "outputTokens": 1557,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 9004
+    },
+    {
+      "id": "mcp-01",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__recent_changes"
+        ],
+        "toolResults": [
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-FUNwH6\n当前分支：master\n最近 2 次提交：\n  - bcd6d5c 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n  - 8a4378e 2026-10-11 Eval — chore: 评测沙箱初始化"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2754,
+          "outputTokens": 196,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3090
+    },
+    {
+      "id": "mcp-02",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search",
+          "mcp__archaeology__find_introduction",
+          "mcp__archaeology__commit_info"
+        ],
+        "toolResults": [
+          "src/thing.js:1:export const MAGIC = 42;",
+          "追\"MAGIC\"：\n共 1 次提交改动了它（出现/消失各算一次，最多列 10 次）。\n最早的那次，最可能是『引入它』的提交：\n  - 6fe494d 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n全部相关提交（新 → 旧）：\n  - 6fe494d 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n下一步：用 commit_info(sha=\"6fe494d\") 看它当时是怎么写的。",
+          "提交 6fe494d3e176\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 3115,
+          "outputTokens": 277,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3851
+    },
+    {
+      "id": "mcp-03",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__file_history",
+          "list_files",
+          "read_file",
+          "mcp__archaeology__commit_info"
+        ],
+        "toolResults": [
+          "src/thing.js 的历史（1 次提交，已跟随重命名）：\n  - 5d4fd8d 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n想深入某一次，用 commit_info(sha=...)。",
+          "src/thing.js",
+          "src/thing.js: 1 lines\n   1 | export const MAGIC = 42;",
+          "提交 5d4fd8da993b\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2994,
+          "outputTokens": 339,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4098
+    },
+    {
+      "id": "mcp-04",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__line_blame",
+          "list_files"
+        ],
+        "toolResults": [
+          "src/thing.js 的 blame（1 行）：\n    1  5841a3ee  2026-10-11  Eval        export const MAGIC = 42;\n\n这些行来自以下提交（按行数排序）：\n  - 5841a3ee 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数  [1 行: 1]\n\n想看某次改动的原因，用 commit_info(sha=...)；想知道某段字符串何时引入，用 find_introduction。",
+          "src/thing.js"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2727,
+          "outputTokens": 190,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2529
+    },
+    {
+      "id": "mcp-05",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__find_introduction",
+          "grep_search",
+          "mcp__archaeology__commit_info",
+          "read_file"
+        ],
+        "toolResults": [
+          "追\"MAGIC\"：\n共 1 次提交改动了它（出现/消失各算一次，最多列 10 次）。\n最早的那次，最可能是『引入它』的提交：\n  - e9c4c12 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n全部相关提交（新 → 旧）：\n  - e9c4c12 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n下一步：用 commit_info(sha=\"e9c4c12\") 看它当时是怎么写的。",
+          "src/thing.js:1:export const MAGIC = 42;",
+          "提交 e9c4c12053a4\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n",
+          "src/thing.js: 1 lines\n   1 | export const MAGIC = 42;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2968,
+          "outputTokens": 383,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5063
+    },
+    {
+      "id": "mcp-06",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__churn_hotspots",
+          "list_files",
+          "mcp__archaeology__recent_changes",
+          "list_files"
+        ],
+        "toolResults": [
+          "改动最频繁的文件（最近 3650 天，共 3 个文件被改过）：\n  次数  +行  -行   文件\n     1    10     0   .mcp.json\n     1     1     0   src/thing.js\n     1     1     0   README.md\n\n改动越频繁的地方，越值得用 file_history 和 line_blame 去看它为什么这么不稳定。",
+          "README.md",
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-3AjbGJ\n当前分支：master\n最近 2 次提交：\n  - 3860035 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n  - 4a60e95 2026-10-11 Eval — chore: 评测沙箱初始化",
+          "README.md\nsrc/thing.js"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2981,
+          "outputTokens": 624,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5083
+    },
+    {
+      "id": "multi-01",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "config.txt: 2 lines\n   1 | debug=false\n   2 | port=8080",
+          "Successfully edited config.txt"
+        ],
+        "files": {
+          "config.txt": "debug=true\nport=8080\n"
+        },
+        "usage": {
+          "inputTokens": 1468,
+          "outputTokens": 198,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3062
+    },
+    {
+      "id": "multi-02",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "Successfully wrote to report.md (3 lines)",
+          "report.md: 2 lines\n   1 | # 报告\n   2 | 结论：一切正常。"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1397,
+          "outputTokens": 188,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2409
+    },
+    {
+      "id": "multi-03",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search",
+          "list_files",
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "src/todo.ts:1:// TODO: 待办",
+          "src/todo.ts",
+          "src/todo.ts: 2 lines\n   1 | // TODO: 待办\n   2 | export const x = 1;",
+          "Successfully edited src/todo.ts"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1662,
+          "outputTokens": 275,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3575
+    },
+    {
+      "id": "multi-04",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file"
+        ],
+        "toolResults": [
+          "docs/guide.md",
+          "docs/guide.md: 1 lines\n   1 | # 指南"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1362,
+          "outputTokens": 149,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2389
+    },
+    {
+      "id": "multi-05",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 1 lines\n   1 | line1"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1251,
+          "outputTokens": 212,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2726
+    },
+    {
+      "id": "multi-06",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "write_file"
+        ],
+        "toolResults": [
+          "Denied: write_file was blocked (plan mode)."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1196,
+          "outputTokens": 849,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5094
+    },
+    {
+      "id": "multi-08",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__recent_changes",
+          "list_files",
+          "read_file",
+          "run_shell",
+          "run_shell",
+          "mcp__archaeology__commit_info",
+          "write_file"
+        ],
+        "toolResults": [
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\n当前分支：master\n最近 1 次提交：\n  - 70394c8 2026-10-11 Eval — chore: 评测沙箱初始化",
+          "README.md",
+          "README.md: 1 lines\n   1 | # sandbox",
+          "Command failed (exit 1)\nStdout: 70394c8 chore: 评测沙箱初始化\n---\r\n---\r\n\nStderr: Get-ChildItem : A parameter cannot be found that matches parameter name 'la'.\r\nAt line:1 char:77\r\n+ ... oneline --all -20; echo \"---\"; git status --short; echo \"---\"; ls -la\r\n+                                                                       ~~~\r\n    + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException\r\n    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand\r\n \r\n",
+          "1\n---branches---\r\n* master\n---tags---\r\n---files tracked---\r\n.mcp.json\nREADME.md\n---all files---\r\n\r\nFullName                                                                                         \r\n--------                                                                                         \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git                                                  \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.mcp.json                                             \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\README.md                                             \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks                                            \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\info                                             \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\logs                                             \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects                                          \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\refs                                             \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\COMMIT_EDITMSG                                   \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\config                                           \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\description                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\HEAD                                             \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\index                                            \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\applypatch-msg.sample                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\commit-msg.sample                          \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\fsmonitor-watchman.sample                  \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\post-update.sample                         \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\pre-applypatch.sample                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\pre-commit.sample                          \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\pre-merge-commit.sample                    \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\pre-push.sample                            \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\pre-rebase.sample                          \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\pre-receive.sample                         \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\prepare-commit-msg.sample                  \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\push-to-checkout.sample                    \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\sendemail-validate.sample                  \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\hooks\\update.sample                              \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\info\\exclude                                     \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\logs\\refs                                        \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\logs\\HEAD                                        \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\logs\\refs\\heads                                  \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\logs\\refs\\heads\\master                           \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\1f                                       \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\70                                       \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\bc                                       \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\f9                                       \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\info                                     \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\pack                                     \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\1f\\b9d3bc28664291287a6ba0cb6af2405f6410c4\r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\70\\394c81784ea4fe70c945e9653df50a5dd3d615\r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\bc\\f526389b096bb3d5219ee6cc4e86d4b1d41b15\r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\objects\\f9\\84c9f709b647f3b710db8436f402a60fb4aee5\r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\refs\\heads                                       \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\refs\\tags                                        \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-izA9z4\\.git\\refs\\heads\\master                                \r\n\r\n\r\n",
+          "提交 70394c81784e\n作者：Eval <e@local>\n日期：2026-10-11\n标题：chore: 评测沙箱初始化\n\n改动统计：\n.mcp.json | 10 ++++++++++\n README.md |  1 +\n 2 files changed, 11 insertions(+)\n\ndiff：\ndiff --git a/.mcp.json b/.mcp.json\nnew file mode 100644\nindex 0000000..1fb9d3b\n--- /dev/null\n+++ b/.mcp.json\n@@ -0,0 +1,10 @@\n+{\n+  \"mcpServers\": {\n+    \"archaeology\": {\n+      \"command\": \"node\",\n+      \"args\": [\n+        \"E:\\\\coding项目\\\\codebase-archaeology-mcp\\\\server.js\"\n+      ]\n+    }\n+  }\n+}\n\\ No newline at end of file\ndiff --git a/README.md b/README.md\nnew file mode 100644\nindex 0000000..bcf5263\n--- /dev/null\n+++ b/README.md\n@@ -0,0 +1 @@\n+# sandbox\n",
+          "Successfully wrote to CHANGELOG.md (24 lines)"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 5228,
+          "outputTokens": 1471,
+          "apiCalls": 6
+        },
+        "turns": 6,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 12817
+    }
+  ]
+}

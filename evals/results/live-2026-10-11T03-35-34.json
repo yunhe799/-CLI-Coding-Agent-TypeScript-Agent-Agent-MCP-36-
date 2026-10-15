@@ -1,0 +1,1304 @@
+{
+  "summary": {
+    "mode": "live",
+    "model": "deepseek-chat",
+    "when": "2026-10-11T03:35:34.301Z",
+    "totals": {
+      "cases": 36,
+      "passed": 16,
+      "passRate": 44.4,
+      "interceptionRate": 0,
+      "avgTurns": 2.9,
+      "avgToolCalls": 3.8,
+      "avgMs": 4571.1,
+      "p50Ms": 3952,
+      "p95Ms": 10146,
+      "inputTokens": 62751,
+      "outputTokens": 14765,
+      "estCostCNY": 0.0923
+    },
+    "byCategory": {
+      "01-file-ops": {
+        "total": 10,
+        "passed": 6,
+        "passRate": 60
+      },
+      "02-permissions": {
+        "total": 6,
+        "passed": 0,
+        "passRate": 0
+      },
+      "03-context": {
+        "total": 6,
+        "passed": 2,
+        "passRate": 33.3
+      },
+      "04-mcp": {
+        "total": 6,
+        "passed": 5,
+        "passRate": 83.3
+      },
+      "05-multi-step": {
+        "total": 8,
+        "passed": 3,
+        "passRate": 37.5
+      }
+    },
+    "failed": [
+      {
+        "id": "file-ops-01",
+        "failures": [
+          "文件 src/nested/note.txt 内容不对：期望 \"hi\"，实际 \"hi\\n\""
+        ]
+      },
+      {
+        "id": "file-ops-04",
+        "failures": [
+          "工具结果里没有「old_string not found」"
+        ]
+      },
+      {
+        "id": "file-ops-05",
+        "failures": [
+          "工具结果里没有「Must be unique」",
+          "文件 a.txt 内容不对：期望 \"foo\\nboo\\n\"，实际 \"f00\\nb00\\n\""
+        ]
+      },
+      {
+        "id": "file-ops-10",
+        "failures": [
+          "文件 out.txt 内容不对：期望 \"line1\\nline2\\n\"，实际 \"第一行内容\\n第二行内容\\n\""
+        ]
+      },
+      {
+        "id": "perm-01",
+        "failures": [
+          "工具结果里没有「Denied: run_shell was blocked」"
+        ]
+      },
+      {
+        "id": "perm-02",
+        "failures": [
+          "工具结果里没有「Denied: run_shell was blocked」"
+        ]
+      },
+      {
+        "id": "perm-03",
+        "failures": [
+          "工具结果里没有「Denied: run_shell was blocked」"
+        ]
+      },
+      {
+        "id": "perm-04",
+        "failures": [
+          "工具调用序列不对：期望（按序）run_shell，实际 list_files",
+          "工具结果里没有「Denied: run_shell was blocked」"
+        ]
+      },
+      {
+        "id": "perm-05",
+        "failures": [
+          "工具结果里没有「Denied: run_shell was blocked」"
+        ]
+      },
+      {
+        "id": "perm-06",
+        "failures": [
+          "工具结果里没有「Denied: run_shell was blocked」"
+        ]
+      },
+      {
+        "id": "ctx-01",
+        "failures": [
+          "对话历史里没有「[Summary of earlier conversation]」",
+          "对话历史里没有「请重新调用工具去读」"
+        ]
+      },
+      {
+        "id": "ctx-02",
+        "failures": [
+          "没有发生压缩"
+        ]
+      },
+      {
+        "id": "ctx-03",
+        "failures": [
+          "超长对话没有触发压缩"
+        ]
+      },
+      {
+        "id": "ctx-06",
+        "failures": [
+          "没有发生压缩"
+        ]
+      },
+      {
+        "id": "mcp-05",
+        "failures": [
+          "工具调用序列不对：期望（按序）mcp__archaeology__search_history，实际 grep_search → mcp__archaeology__find_introduction → mcp__archaeology__commit_info → read_file"
+        ]
+      },
+      {
+        "id": "multi-02",
+        "failures": [
+          "文件 report.md 内容不对：期望 \"# 报告\\n\\n结论：一切正常。\\n\"，实际 \"# 报告\\n\\n## 概述\\n本报告由 Mini Claude Code 生成，用于演示文件写入与回读核对流程。\\n\\n## 内容\\n1. 项目概况：当前工作目录为空，无既有文件。\\n2. 任务目标：生成 report.md 并读回校验内容一致性。\\n3. 结论：文件写入成功，内容可正常读取。\\n\\n## 核对要点\\n- 文件名：report.md\\n- 编码：UTF-8\\n- 结构：标题 + 概述 + 内容 + 核对要点\\n\""
+        ]
+      },
+      {
+        "id": "multi-03",
+        "failures": [
+          "文件 src/todo.ts 内容不对：期望 \"// DONE: 已完成\\nexport const x = 1;\\n\"，实际 \"// DONE: 待办\\nexport const x = 1;\\n\""
+        ]
+      },
+      {
+        "id": "multi-06",
+        "failures": [
+          "工具调用序列不对：期望（按序）write_file，实际 (无)",
+          "工具结果里没有「Denied: write_file was blocked (plan mode)」"
+        ]
+      },
+      {
+        "id": "multi-07",
+        "failures": [
+          "工具结果里没有「mock 旁路回复」"
+        ]
+      },
+      {
+        "id": "multi-08",
+        "failures": [
+          "文件 CHANGELOG.md 内容不对：期望 \"## 最近改动\\n- 评测沙箱初始化\\n\"，实际 \"# Changelog\\n\\n本文件记录仓库的变更。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。\\n\\n## [Unreleased]\\n\\n（暂无）\\n\\n## [0.0.1] - 2026-10-11\\n\\n### Added\\n- 评测沙箱初始化（`29810a1`）。\\n  - 新增 `.mcp.json`：配置 archaeology 工具服务，指向本地\\n    `codebase-archaeology-mcp/server.js`。\\n  - 新增 `README.md`：仓库说明占位，内容为 `# sandbox`。\\n\\n---\\n\\n说明：截至本次记录，仓库仅有上述 1 次提交，尚无实际功能开发、源码或测试，\\n因此没有更多可追溯的变更条目。后续提交应在 `Unreleased` 下按\\nAdded / Changed / Fixed / Removed 归类补记。\\n\""
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "file-ops-01",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 src/nested/note.txt 内容不对：期望 \"hi\"，实际 \"hi\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "run_shell",
+          "run_shell",
+          "write_file",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "src missing\r\n",
+          "True\r\n",
+          "Successfully wrote to src/nested/note.txt (2 lines)",
+          "\r\nFullName                                                       Length\r\n--------                                                       ------\r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-Wgr6bm\\src\\nested                \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-Wgr6bm\\src\\nested\\note.txt 3     \r\n\r\n\r\n"
+        ],
+        "files": {
+          "src/nested/note.txt": "hi\n"
+        },
+        "usage": {
+          "inputTokens": 2025,
+          "outputTokens": 462,
+          "apiCalls": 6
+        },
+        "turns": 6,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 8514
+    },
+    {
+      "id": "file-ops-02",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1222,
+          "outputTokens": 70,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2415
+    },
+    {
+      "id": "file-ops-03",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world",
+          "Successfully edited a.txt"
+        ],
+        "files": {
+          "a.txt": "hello\nearth\n"
+        },
+        "usage": {
+          "inputTokens": 1390,
+          "outputTokens": 142,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2969
+    },
+    {
+      "id": "file-ops-04",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「old_string not found」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | hello\n   2 | world"
+        ],
+        "files": {
+          "a.txt": "hello\nworld\n"
+        },
+        "usage": {
+          "inputTokens": 1238,
+          "outputTokens": 123,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1898
+    },
+    {
+      "id": "file-ops-05",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「Must be unique」",
+        "文件 a.txt 内容不对：期望 \"foo\\nboo\\n\"，实际 \"f00\\nb00\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "a.txt: 2 lines\n   1 | foo\n   2 | boo",
+          "Successfully edited a.txt"
+        ],
+        "files": {
+          "a.txt": "f00\nb00\n"
+        },
+        "usage": {
+          "inputTokens": 1386,
+          "outputTokens": 377,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3347
+    },
+    {
+      "id": "file-ops-06",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 1 lines\n   1 | value=X",
+          "Successfully edited a.txt",
+          "a.txt: 1 lines\n   1 | value=$&"
+        ],
+        "files": {
+          "a.txt": "value=$&\n"
+        },
+        "usage": {
+          "inputTokens": 1516,
+          "outputTokens": 390,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4294
+    },
+    {
+      "id": "file-ops-07",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files"
+        ],
+        "toolResults": [
+          "src/two.ts\nsrc/one.ts"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1226,
+          "outputTokens": 113,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1965
+    },
+    {
+      "id": "file-ops-08",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "grep_search"
+        ],
+        "toolResults": [
+          "src/hit.ts:2:const MARKER_TOKEN = 2;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1227,
+          "outputTokens": 74,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 1927
+    },
+    {
+      "id": "file-ops-09",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "Error reading file: ENOENT: no such file or directory, open 'C:\\Users\\HP\\AppData\\Local\\Temp\\eval-Ba9756\\nope.txt'"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1249,
+          "outputTokens": 103,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2005
+    },
+    {
+      "id": "file-ops-10",
+      "category": "01-file-ops",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 out.txt 内容不对：期望 \"line1\\nline2\\n\"，实际 \"第一行内容\\n第二行内容\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "Successfully wrote to out.txt (3 lines)",
+          "out.txt: 2 lines\n   1 | 第一行内容\n   2 | 第二行内容"
+        ],
+        "files": {
+          "out.txt": "第一行内容\n第二行内容\n"
+        },
+        "usage": {
+          "inputTokens": 1505,
+          "outputTokens": 270,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3727
+    },
+    {
+      "id": "perm-01",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「Denied: run_shell was blocked」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "run_shell"
+        ],
+        "toolResults": [
+          "NOT_FOUND\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1158,
+          "outputTokens": 658,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4975
+    },
+    {
+      "id": "perm-02",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「Denied: run_shell was blocked」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "run_shell",
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "Command failed (exit 1)\nStderr: fatal: not a git repository (or any of the parent directories): .git\n",
+          "Command failed (exit 1)\nStderr: fatal: not a git repository (or any of the parent directories): .git\n",
+          "Command failed (exit 1)\nStderr: fatal: not a git repository (or any of the parent directories): .git\n",
+          "\r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-pQBKVY\r\n\r\n\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1395,
+          "outputTokens": 472,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5715
+    },
+    {
+      "id": "perm-03",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「Denied: run_shell was blocked」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "run_shell",
+          "run_shell"
+        ],
+        "toolResults": [
+          "Command failed (exit 1)\nStderr: At line:1 char:12\r\n+ git status && echo \"-----\" && git log --oneline -5\r\n+            ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\nAt line:1 char:28\r\n+ git status && echo \"-----\" && git log --oneline -5\r\n+                            ~~\r\nThe token '&&' is not a valid statement separator in this version.\r\n    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : InvalidEndOfLine\r\n \r\n",
+          "Command failed (exit 1)\nStdout: -----\r\n\nStderr: fatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1415,
+          "outputTokens": 444,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4844
+    },
+    {
+      "id": "perm-04",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具调用序列不对：期望（按序）run_shell，实际 list_files",
+        "工具结果里没有「Denied: run_shell was blocked」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files"
+        ],
+        "toolResults": [
+          "No files found matching the pattern."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1157,
+          "outputTokens": 381,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3151
+    },
+    {
+      "id": "perm-05",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「Denied: run_shell was blocked」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "---\r\nFalse\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1374,
+          "outputTokens": 674,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5237
+    },
+    {
+      "id": "perm-06",
+      "category": "02-permissions",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「Denied: run_shell was blocked」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "run_shell"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "\r\nPath                                      \r\n----                                      \r\nC:\\Users\\HP\\AppData\\Local\\Temp\\eval-CwLenw\r\n\r\n\r\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1373,
+          "outputTokens": 727,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5778
+    },
+    {
+      "id": "ctx-01",
+      "category": "03-context",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "对话历史里没有「[Summary of earlier conversation]」",
+        "对话历史里没有「请重新调用工具去读」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f1.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f2.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f3.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f4.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f5.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f6.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f7.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f8.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f9.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f10.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1436,
+          "outputTokens": 402,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3202
+    },
+    {
+      "id": "ctx-02",
+      "category": "03-context",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "没有发生压缩"
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "f9.txt\nf8.txt\nf7.txt\nf6.txt\nf5.txt\nf4.txt\nf3.txt\nf2.txt\nf10.txt\nf1.txt\nf0.txt",
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f1.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f2.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f3.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f4.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f5.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f6.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f7.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f8.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f9.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f10.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1697,
+          "outputTokens": 593,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4657
+    },
+    {
+      "id": "ctx-03",
+      "category": "03-context",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "超长对话没有触发压缩"
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "f9.txt\nf8.txt\nf7.txt\nf6.txt\nf5.txt\nf4.txt\nf3.txt\nf2.txt\nf10.txt\nf1.txt\nf0.txt",
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f1.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f2.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f3.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f4.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f5.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f6.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f7.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f8.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f9.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f10.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1690,
+          "outputTokens": 670,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3845
+    },
+    {
+      "id": "ctx-04",
+      "category": "03-context",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "f9.txt\nf8.txt\nf7.txt\nf6.txt\nf5.txt\nf4.txt\nf3.txt\nf2.txt\nf10.txt\nf1.txt\nf0.txt",
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f1.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f2.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f3.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f4.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f5.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f6.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f7.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f8.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f9.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f10.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1675,
+          "outputTokens": 606,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4724
+    },
+    {
+      "id": "ctx-05",
+      "category": "03-context",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "f9.txt\nf8.txt\nf7.txt\nf6.txt\nf5.txt\nf4.txt\nf3.txt\nf2.txt\nf10.txt\nf1.txt\nf0.txt",
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f1.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f2.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f3.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f4.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f5.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f6.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f7.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f8.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f9.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f10.txt: 2 lines\n   1 | line1\n   2 | line2"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1723,
+          "outputTokens": 1073,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 7111
+    },
+    {
+      "id": "ctx-06",
+      "category": "03-context",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "没有发生压缩"
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "read_file",
+          "grep_search"
+        ],
+        "toolResults": [
+          "f9.txt\nf8.txt\nf7.txt\nf6.txt\nf5.txt\nf4.txt\nf3.txt\nf2.txt\nf10.txt\nf1.txt\nf0.txt\nsrc/hit.ts",
+          "f0.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f1.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f2.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f3.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f4.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f5.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f6.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f7.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f8.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f9.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "f10.txt: 2 lines\n   1 | line1\n   2 | line2",
+          "src/hit.ts: 2 lines\n   1 | const A = 1;\n   2 | const MARKER_TOKEN = 2;",
+          "src/hit.ts:2:const MARKER_TOKEN = 2;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1798,
+          "outputTokens": 595,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4310
+    },
+    {
+      "id": "mcp-01",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__recent_changes"
+        ],
+        "toolResults": [
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-Ha5VJM\n当前分支：master\n最近 2 次提交：\n  - 03f9618 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n  - 1ded34b 2026-10-11 Eval — chore: 评测沙箱初始化"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2752,
+          "outputTokens": 161,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4154
+    },
+    {
+      "id": "mcp-02",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__find_introduction",
+          "mcp__archaeology__commit_info"
+        ],
+        "toolResults": [
+          "追\"MAGIC\"：\n共 1 次提交改动了它（出现/消失各算一次，最多列 10 次）。\n最早的那次，最可能是『引入它』的提交：\n  - dff7014 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n全部相关提交（新 → 旧）：\n  - dff7014 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n下一步：用 commit_info(sha=\"dff7014\") 看它当时是怎么写的。",
+          "提交 dff7014ceab6\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 3002,
+          "outputTokens": 296,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3950
+    },
+    {
+      "id": "mcp-03",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__file_history",
+          "mcp__archaeology__recent_changes",
+          "mcp__archaeology__commit_info",
+          "read_file"
+        ],
+        "toolResults": [
+          "src/thing.js 的历史（1 次提交，已跟随重命名）：\n  - 8f3ea1c 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n想深入某一次，用 commit_info(sha=...)。",
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-i63AFQ\n当前分支：master\n最近 2 次提交：\n  - 8f3ea1c 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n  - 1df7124 2026-10-11 Eval — chore: 评测沙箱初始化",
+          "提交 8f3ea1cc4a01\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n",
+          "src/thing.js: 1 lines\n   1 | export const MAGIC = 42;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 3055,
+          "outputTokens": 343,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4535
+    },
+    {
+      "id": "mcp-04",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__line_blame"
+        ],
+        "toolResults": [
+          "src/thing.js 的 blame（1 行）：\n    1  3bd41ecb  2026-10-11  Eval        export const MAGIC = 42;\n\n这些行来自以下提交（按行数排序）：\n  - 3bd41ecb 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数  [1 行: 1]\n\n想看某次改动的原因，用 commit_info(sha=...)；想知道某段字符串何时引入，用 find_introduction。"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2737,
+          "outputTokens": 255,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2980
+    },
+    {
+      "id": "mcp-05",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具调用序列不对：期望（按序）mcp__archaeology__search_history，实际 grep_search → mcp__archaeology__find_introduction → mcp__archaeology__commit_info → read_file"
+      ],
+      "observed": {
+        "toolCalls": [
+          "grep_search",
+          "mcp__archaeology__find_introduction",
+          "mcp__archaeology__commit_info",
+          "read_file"
+        ],
+        "toolResults": [
+          "src/thing.js:1:export const MAGIC = 42;",
+          "追\"MAGIC\"：\n共 1 次提交改动了它（出现/消失各算一次，最多列 10 次）。\n最早的那次，最可能是『引入它』的提交：\n  - a1a0ba2 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n全部相关提交（新 → 旧）：\n  - a1a0ba2 2026-10-11 Eval — feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n下一步：用 commit_info(sha=\"a1a0ba2\") 看它当时是怎么写的。",
+          "提交 a1a0ba209895\n作者：Eval <e@local>\n日期：2026-10-11\n标题：feat: 引入 MAGIC 常量 —— 因为上游接口要求固定魔数\n\n改动统计：\nsrc/thing.js | 1 +\n 1 file changed, 1 insertion(+)\n\ndiff：\ndiff --git a/src/thing.js b/src/thing.js\nnew file mode 100644\nindex 0000000..30b8b93\n--- /dev/null\n+++ b/src/thing.js\n@@ -0,0 +1 @@\n+export const MAGIC = 42;\n",
+          "src/thing.js: 1 lines\n   1 | export const MAGIC = 42;"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2979,
+          "outputTokens": 413,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 5417
+    },
+    {
+      "id": "mcp-06",
+      "category": "04-mcp",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__churn_hotspots"
+        ],
+        "toolResults": [
+          "改动最频繁的文件（最近 90 天，共 3 个文件被改过）：\n  次数  +行  -行   文件\n     1    10     0   .mcp.json\n     1     1     0   src/thing.js\n     1     1     0   README.md\n\n改动越频繁的地方，越值得用 file_history 和 line_blame 去看它为什么这么不稳定。"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 2758,
+          "outputTokens": 244,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3943
+    },
+    {
+      "id": "multi-01",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "config.txt: 2 lines\n   1 | debug=false\n   2 | port=8080",
+          "Successfully edited config.txt"
+        ],
+        "files": {
+          "config.txt": "debug=true\nport=8080\n"
+        },
+        "usage": {
+          "inputTokens": 1409,
+          "outputTokens": 163,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 2705
+    },
+    {
+      "id": "multi-02",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 report.md 内容不对：期望 \"# 报告\\n\\n结论：一切正常。\\n\"，实际 \"# 报告\\n\\n## 概述\\n本报告由 Mini Claude Code 生成，用于演示文件写入与回读核对流程。\\n\\n## 内容\\n1. 项目概况：当前工作目录为空，无既有文件。\\n2. 任务目标：生成 report.md 并读回校验内容一致性。\\n3. 结论：文件写入成功，内容可正常读取。\\n\\n## 核对要点\\n- 文件名：report.md\\n- 编码：UTF-8\\n- 结构：标题 + 概述 + 内容 + 核对要点\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "write_file",
+          "read_file"
+        ],
+        "toolResults": [
+          "No files found matching the pattern.",
+          "Successfully wrote to report.md (15 lines)",
+          "report.md: 14 lines\n   1 | # 报告\n   2 | \n   3 | ## 概述\n   4 | 本报告由 Mini Claude Code 生成，用于演示文件写入与回读核对流程。\n   5 | \n   6 | ## 内容\n   7 | 1. 项目概况：当前工作目录为空，无既有文件。\n   8 | 2. 任务目标：生成 report.md 并读回校验内容一致性。\n   9 | 3. 结论：文件写入成功，内容可正常读取。\n  10 | \n  11 | ## 核对要点\n  12 | - 文件名：report.md\n  13 | - 编码：UTF-8\n  14 | - 结构：标题 + 概述 + 内容 + 核对要点"
+        ],
+        "files": {
+          "report.md": "# 报告\n\n## 概述\n本报告由 Mini Claude Code 生成，用于演示文件写入与回读核对流程。\n\n## 内容\n1. 项目概况：当前工作目录为空，无既有文件。\n2. 任务目标：生成 report.md 并读回校验内容一致性。\n3. 结论：文件写入成功，内容可正常读取。\n\n## 核对要点\n- 文件名：report.md\n- 编码：UTF-8\n- 结构：标题 + 概述 + 内容 + 核对要点\n"
+        },
+        "usage": {
+          "inputTokens": 1540,
+          "outputTokens": 494,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 4749
+    },
+    {
+      "id": "multi-03",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 src/todo.ts 内容不对：期望 \"// DONE: 已完成\\nexport const x = 1;\\n\"，实际 \"// DONE: 待办\\nexport const x = 1;\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "grep_search",
+          "read_file",
+          "edit_file"
+        ],
+        "toolResults": [
+          "src/todo.ts:1:// TODO: 待办",
+          "src/todo.ts: 2 lines\n   1 | // TODO: 待办\n   2 | export const x = 1;",
+          "Successfully edited src/todo.ts"
+        ],
+        "files": {
+          "src/todo.ts": "// DONE: 待办\nexport const x = 1;\n"
+        },
+        "usage": {
+          "inputTokens": 1642,
+          "outputTokens": 330,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3952
+    },
+    {
+      "id": "multi-04",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "list_files",
+          "read_file"
+        ],
+        "toolResults": [
+          "docs/guide.md",
+          "docs/guide.md: 1 lines\n   1 | # 指南"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1427,
+          "outputTokens": 186,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3383
+    },
+    {
+      "id": "multi-05",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "toolCalls": [
+          "read_file"
+        ],
+        "toolResults": [
+          "a.txt: 1 lines\n   1 | line1"
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1249,
+          "outputTokens": 315,
+          "apiCalls": 2
+        },
+        "turns": 2,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 3190
+    },
+    {
+      "id": "multi-06",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具调用序列不对：期望（按序）write_file，实际 (无)",
+        "工具结果里没有「Denied: write_file was blocked (plan mode)」"
+      ],
+      "observed": {
+        "toolCalls": [],
+        "toolResults": [],
+        "files": {},
+        "usage": {
+          "inputTokens": 1019,
+          "outputTokens": 455,
+          "apiCalls": 1
+        },
+        "turns": 1,
+        "finalStopReason": "text_only"
+      },
+      "ms": 2826
+    },
+    {
+      "id": "multi-07",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "工具结果里没有「mock 旁路回复」"
+      ],
+      "observed": {
+        "toolCalls": [
+          "agent",
+          "list_files"
+        ],
+        "toolResults": [
+          "## 调查结果汇报\n\n经过多种方式的全面检索（按通配符匹配 `**/*`、各类依赖文件扩展名、隐藏文件 `**/.*`、以及内容搜索），我得出如下结论：\n\n### 核心发现：当前工作目录为空\n\n**当前工作目录路径为：** `C:\\Users\\HP\\AppData\\Local\\Temp\\eval-omjP86`\n\n该目录下**没有任何文件**，因此无法完成依赖调查。具体验证情况：\n\n| 检查项 | 使用的匹配模式 | 结果 |\n|--------|---------------|------|\n| 任意文件 | `**/*`、`*`、`*/*` | ❌ 未找到 |\n| 隐藏文件（如 `.gitignore`、`.npmrc`） | `**/.*` | ❌ 未找到 |\n| 各类依赖声明文件 | `**/package.json`、`**/*.txt`、`**/*.mod`、`**/*.toml`、`**/*.xml`、`**/Gemfile` | ❌ 未找到 |\n| 源码文件 | `**/*.js`、`**/*.py`、`**/*.go`、`**/*.rs` | ❌ 未找到 |\n| 内容搜索 | `grep \"dependencies\"`、`grep \".\"` | ❌ 无匹配 |\n| 直接读取 | `package.json` | ❌ ENOENT（文件不存在） |\n\n### 针对调查清单的逐项回答\n\n1. **项目类型（语言/框架/包管理器）**：无法判定 —— 目录中不存在任何源码或配置文件。\n2. **依赖声明文件**：无。未发现 `package.json`、`requirements.txt`、`go.mod`、`Cargo.toml`、`pom.xml`、`pyproject.toml`、`Gemfile` 等任何依赖文件。\n3. **主要依赖及版本**：无依赖可列出。\n4. **生产依赖 / 开发依赖区分**：不适用。\n5. **锁文件**：无（未发现 `package-lock.json`、`yarn.lock`、`pnpm-lock.yaml`、`poetry.lock`、`Cargo.lock`、`go.sum`、`Gemfile.lock` 等）。\n6. **值得注意的依赖问题**：不适用。\n\n### 结论与建议\n\n- 该目录（位于系统临时目录 `AppData\\Local\\Temp\\eval-omjP86` 下）为空，**很可能尚未检出/克隆代码，或项目文件位于其他路径**。\n- 若确需进行依赖调查，请确认：\n  - 是否已把项目代码放入当前工作目录；\n  - 或项目实际所在的路径，然后我可以针对该路径重新调查。\n\n如果这是预期外的空目录，建议先确认代码获取步骤（如 `git clone`、解压等）是否已执行。",
+          "No files found matching the pattern."
+        ],
+        "files": {},
+        "usage": {
+          "inputTokens": 1939,
+          "outputTokens": 560,
+          "apiCalls": 3
+        },
+        "turns": 3,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 18020
+    },
+    {
+      "id": "multi-08",
+      "category": "05-multi-step",
+      "mode": "live",
+      "pass": false,
+      "failures": [
+        "文件 CHANGELOG.md 内容不对：期望 \"## 最近改动\\n- 评测沙箱初始化\\n\"，实际 \"# Changelog\\n\\n本文件记录仓库的变更。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。\\n\\n## [Unreleased]\\n\\n（暂无）\\n\\n## [0.0.1] - 2026-10-11\\n\\n### Added\\n- 评测沙箱初始化（`29810a1`）。\\n  - 新增 `.mcp.json`：配置 archaeology 工具服务，指向本地\\n    `codebase-archaeology-mcp/server.js`。\\n  - 新增 `README.md`：仓库说明占位，内容为 `# sandbox`。\\n\\n---\\n\\n说明：截至本次记录，仓库仅有上述 1 次提交，尚无实际功能开发、源码或测试，\\n因此没有更多可追溯的变更条目。后续提交应在 `Unreleased` 下按\\nAdded / Changed / Fixed / Removed 归类补记。\\n\""
+      ],
+      "observed": {
+        "toolCalls": [
+          "mcp__archaeology__recent_changes",
+          "list_files",
+          "read_file",
+          "run_shell",
+          "mcp__archaeology__commit_info",
+          "write_file"
+        ],
+        "toolResults": [
+          "仓库：C:\\Users\\HP\\AppData\\Local\\Temp\\eval-bSBiTt\n当前分支：master\n最近 1 次提交：\n  - 29810a1 2026-10-11 Eval — chore: 评测沙箱初始化",
+          "README.md",
+          "README.md: 1 lines\n   1 | # sandbox",
+          "---\r\n29810a1 chore: 评测沙箱初始化\n---\r\n.mcp.json\nREADME.md\n",
+          "提交 29810a1b01ef\n作者：Eval <e@local>\n日期：2026-10-11\n标题：chore: 评测沙箱初始化\n\n改动统计：\n.mcp.json | 10 ++++++++++\n README.md |  1 +\n 2 files changed, 11 insertions(+)\n\ndiff：\ndiff --git a/.mcp.json b/.mcp.json\nnew file mode 100644\nindex 0000000..1fb9d3b\n--- /dev/null\n+++ b/.mcp.json\n@@ -0,0 +1,10 @@\n+{\n+  \"mcpServers\": {\n+    \"archaeology\": {\n+      \"command\": \"node\",\n+      \"args\": [\n+        \"E:\\\\coding项目\\\\codebase-archaeology-mcp\\\\server.js\"\n+      ]\n+    }\n+  }\n+}\n\\ No newline at end of file\ndiff --git a/README.md b/README.md\nnew file mode 100644\nindex 0000000..bcf5263\n--- /dev/null\n+++ b/README.md\n@@ -0,0 +1 @@\n+# sandbox\n",
+          "Successfully wrote to CHANGELOG.md (22 lines)"
+        ],
+        "files": {
+          "CHANGELOG.md": "# Changelog\n\n本文件记录仓库的变更。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。\n\n## [Unreleased]\n\n（暂无）\n\n## [0.0.1] - 2026-10-11\n\n### Added\n- 评测沙箱初始化（`29810a1`）。\n  - 新增 `.mcp.json`：配置 archaeology 工具服务，指向本地\n    `codebase-archaeology-mcp/server.js`。\n  - 新增 `README.md`：仓库说明占位，内容为 `# sandbox`。\n\n---\n\n说明：截至本次记录，仓库仅有上述 1 次提交，尚无实际功能开发、源码或测试，\n因此没有更多可追溯的变更条目。后续提交应在 `Unreleased` 下按\nAdded / Changed / Fixed / Removed 归类补记。\n"
+        },
+        "usage": {
+          "inputTokens": 3368,
+          "outputTokens": 1131,
+          "apiCalls": 4
+        },
+        "turns": 4,
+        "finalStopReason": "no_tool_use"
+      },
+      "ms": 10146
+    }
+  ]
+}
