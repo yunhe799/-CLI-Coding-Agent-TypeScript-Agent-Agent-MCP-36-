@@ -4,7 +4,8 @@ import { join } from "path";
 // 跨会话记忆：把一些"事实"存成 .mini-memory/ 目录下的 .md 文件。
 // 每次对话前，挑出和用户这次提问相关的那几条，塞进系统提示词。
 // 教程原版用的是"关键词重合度"——不调用模型、不用向量库，足够看清机制。
-const MEMORY_DIR = join(process.cwd(), ".mini-memory");
+// 同上：目录在调用时解析，别在 import 时定死
+const memoryDir = () => join(process.cwd(), ".mini-memory");
 
 // ── 我改的地方 ──
 // 教程原版按空格和非字母字符切词。这对英文有效，但中文没有空格，
@@ -25,13 +26,14 @@ function tokenize(text: string): Set<string> {
 }
 
 export function recallMemories(query: string): string {
-  if (!existsSync(MEMORY_DIR)) return "";
+  const dir = memoryDir();
+  if (!existsSync(dir)) return "";
   const queryWords = tokenize(query);
   if (queryWords.size === 0) return "";
 
   const scored: { text: string; score: number }[] = [];
-  for (const file of readdirSync(MEMORY_DIR).filter((f) => f.endsWith(".md"))) {
-    const text = readFileSync(join(MEMORY_DIR, file), "utf-8").trim();
+  for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+    const text = readFileSync(join(dir, file), "utf-8").trim();
     const words = tokenize(text);
     let score = 0;
     for (const w of queryWords) if (words.has(w)) score++;
