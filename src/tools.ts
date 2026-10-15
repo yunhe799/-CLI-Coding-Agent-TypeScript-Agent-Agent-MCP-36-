@@ -162,7 +162,9 @@ async function listFiles(input: { pattern: string; path?: string }): Promise<str
       ignore: ["node_modules/**", ".git/**"],
     });
     if (files.length === 0) return "No files found matching the pattern.";
-    return files.slice(0, 200).join("\n");
+    // Windows 适配：glob 在 Windows 上返回 "src\two.ts" 这种反斜杠路径，
+    // 而 Linux/macOS 上是正斜杠。统一成正斜杠，模型看到的路径才跨平台一致。
+    return files.slice(0, 200).map((f) => f.replace(/\\/g, "/")).join("\n");
   } catch (e: any) {
     return `Error listing files: ${e.message}`;
   }
@@ -196,7 +198,7 @@ function grepJS(pattern: string, dir: string): string {
       if (st.isDirectory()) { walk(full); continue; }
       try {
         readFileSync(full, "utf-8").split("\n").forEach((line, i) => {
-          if (re.test(line) && matches.length < 100) matches.push(`${full}:${i + 1}:${line}`);
+          if (re.test(line) && matches.length < 100) matches.push(`${full.replace(/\\/g, "/")}:${i + 1}:${line}`);
         });
       } catch {}
     }
