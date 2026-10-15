@@ -35,6 +35,8 @@ export class Agent {
   // Auto Mode：连续/累计拒绝计数（达上限就退回人工确认）
   private autoConsecutiveDenials = 0;
   private autoTotalDenials = 0;
+  // ── 第 4 周新增：token 用量累计（评测报告要算平均 token 与成本）──
+  usage = { inputTokens: 0, outputTokens: 0, apiCalls: 0 };
 
   constructor() {
     this.client = new Anthropic({
@@ -108,6 +110,10 @@ export class Agent {
       stream.on("text", (t) => process.stdout.write(t));
       const reply = await stream.finalMessage();
       process.stdout.write("\n");
+      // 累计用量（假模型客户端没有 usage，按 0 处理）
+      this.usage.inputTokens += (reply as any).usage?.input_tokens ?? 0;
+      this.usage.outputTokens += (reply as any).usage?.output_tokens ?? 0;
+      this.usage.apiCalls++;
 
       // 把模型的完整回复（文字 + 工具调用）记进消息历史
       this.messages.push({ role: "assistant", content: reply.content });
